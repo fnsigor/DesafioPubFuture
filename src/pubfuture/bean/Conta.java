@@ -10,5 +10,8 @@ package pubfuture.bean;
  * @author Igor Fernandes
  */
 public class Conta {
-    
+    private Integer id;
+    private String tipo;
+    private String instituicao;
+    private Double saldo;
 }
