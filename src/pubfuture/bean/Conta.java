@@ -14,7 +14,7 @@ public class Conta {
     private Integer idconta;
     private String tipo;
     private String instituicao;
-    private Double saldo;
+    private double saldo;
 
     public Integer getId() {
         return idconta;
@@ -40,15 +40,15 @@ public class Conta {
         this.instituicao = instituicao;
     }
 
-    public Double getSaldo() {
+    public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(Double saldo) {
+    public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
 
-    public Conta(String tipo, String instituicao, Double saldo) {
+    public Conta(String tipo, String instituicao, double saldo) {
         this.tipo = tipo;
         this.instituicao = instituicao;
         this.saldo = saldo;
