@@ -8,8 +8,11 @@ package pubfuture.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pubfuture.bean.Conta;
 
 /**
@@ -24,7 +27,7 @@ public class ContaDaoImpl {
     private String sql;
     private Conta conta;
 
-    public void salvar(Conta conta) {
+    public void salvar(Conta conta) throws Exception {
 
         sql = "INSERT INTO CONTA(TIPO, INSTITUICAO, SALDO) VALUES (?, ?, ?)";
         try {
@@ -38,10 +41,16 @@ public class ContaDaoImpl {
             result.next();
             conta.setId(result.getInt(1));
 
-        } catch (Exception e) {
-            System.out.println("Erro ao salvar" + e.getMessage());
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Classe não encontrada, adicione o driver nas bibliotecas.");
+            Logger.getLogger(ContaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            System.out.println(e);
+            throw new RuntimeException(e);
         }
     }
+
+    
 
     public void alterar(Conta Conta) {
 
