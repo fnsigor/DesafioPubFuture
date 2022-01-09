@@ -5,15 +5,22 @@
  */
 package pubfuture.view;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pubfuture.bean.Conta;
+import pubfuture.dao.ContaDaoImpl;
+
 /**
  *
  * @author Igor Fernandes
  */
 public class ContaTela extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ContaTela
-     */
+    ContaDaoImpl dao = new ContaDaoImpl();
+    Conta objeto = new Conta();
+
     public ContaTela() {
         initComponents();
     }
@@ -33,10 +40,10 @@ public class ContaTela extends javax.swing.JFrame {
         varInstituicao = new javax.swing.JTextField();
         comboTipo = new javax.swing.JComboBox<>();
         varSaldo = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btCadastrar = new javax.swing.JButton();
+        btAtualizar = new javax.swing.JButton();
+        btDeletar = new javax.swing.JButton();
+        btPesquisar = new javax.swing.JButton();
         varPesquisa = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -52,17 +59,37 @@ public class ContaTela extends javax.swing.JFrame {
 
         comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Carteira ", "Conta Corrente", "Poupança" }));
 
-        jButton1.setText("Cadastrar");
+        btCadastrar.setText("Cadastrar");
+        btCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCadastrarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Atualizar");
-        jButton2.setMaximumSize(new java.awt.Dimension(81, 23));
-        jButton2.setMinimumSize(new java.awt.Dimension(81, 23));
+        btAtualizar.setText("Atualizar");
+        btAtualizar.setMaximumSize(new java.awt.Dimension(81, 23));
+        btAtualizar.setMinimumSize(new java.awt.Dimension(81, 23));
+        btAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAtualizarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Deletar");
-        jButton3.setMaximumSize(new java.awt.Dimension(81, 23));
-        jButton3.setMinimumSize(new java.awt.Dimension(81, 23));
+        btDeletar.setText("Deletar");
+        btDeletar.setMaximumSize(new java.awt.Dimension(81, 23));
+        btDeletar.setMinimumSize(new java.awt.Dimension(81, 23));
+        btDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDeletarActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("jButton4");
+        btPesquisar.setText("pesquisar");
+        btPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPesquisarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Instituição:");
 
@@ -80,11 +107,11 @@ public class ContaTela extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadosLayout.createSequentialGroup()
-                        .addComponent(varInstituicao, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                        .addComponent(varInstituicao, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                         .addGap(254, 254, 254)
                         .addComponent(varPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4)
+                        .addComponent(btPesquisar)
                         .addGap(26, 26, 26))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadosLayout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -101,11 +128,11 @@ public class ContaTela extends javax.swing.JFrame {
                         .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelDadosLayout.createSequentialGroup()
                                 .addGap(336, 336, 336)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadosLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -128,7 +155,7 @@ public class ContaTela extends javax.swing.JFrame {
                         .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(varInstituicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(varPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4))
+                            .addComponent(btPesquisar))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addGap(5, 5, 5)
@@ -136,9 +163,9 @@ public class ContaTela extends javax.swing.JFrame {
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadosLayout.createSequentialGroup()
                         .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btCadastrar)
+                            .addComponent(btAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(33, 33, 33)))
                 .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDadosLayout.createSequentialGroup()
@@ -158,7 +185,25 @@ public class ContaTela extends javax.swing.JFrame {
             new String [] {
                 "ID", "Tipo", "Instituição", "Saldo"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
+        tabela.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tabelaKeyReleased(evt);
+            }
+        });
         PanelScrollTabela.setViewportView(tabela);
 
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
@@ -190,6 +235,130 @@ public class ContaTela extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+
+        if (!temErro()) {
+
+            objeto.setInstituicao(varInstituicao.getText().trim());
+            objeto.setTipo((String) comboTipo.getSelectedItem());
+            objeto.setSaldo(Double.parseDouble(varSaldo.getText().replace(",", ".")));
+            try {
+                dao.salvar(objeto);
+            } catch (Exception ex) {
+                Logger.getLogger(ContaTela.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        
+        JOptionPane.showMessageDialog(null, "Conta cadastrada com sucesso!");
+            varInstituicao.setText("");
+            varSaldo.setText("");
+            pesquisaInstituicao(varPesquisa.getText());
+
+    }//GEN-LAST:event_btCadastrarActionPerformed
+
+    private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
+        pesquisaInstituicao(varPesquisa.getText().trim());
+    }//GEN-LAST:event_btPesquisarActionPerformed
+
+    private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
+        if (tabela.getSelectedRow() != -1) {
+
+            objeto = dao.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
+            objeto.setInstituicao(varInstituicao.getText().trim());
+            objeto.setTipo((String) comboTipo.getSelectedItem());
+            objeto.setSaldo(Double.parseDouble(varSaldo.getText().replace(",", ".")));
+            dao.alterar(objeto);
+
+            JOptionPane.showMessageDialog(null, "Conta alterada com sucesso!");
+            varInstituicao.setText("");
+            varSaldo.setText("");
+            pesquisaInstituicao(varPesquisa.getText());
+        }
+    }//GEN-LAST:event_btAtualizarActionPerformed
+
+    private void tabelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelaKeyReleased
+        if (tabela.getSelectedRow() != -1) {
+            comboTipo.setSelectedItem(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
+            varInstituicao.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
+            varSaldo.setText(tabela.getValueAt(tabela.getSelectedRow(), 3).toString());
+        }
+    }//GEN-LAST:event_tabelaKeyReleased
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        if (tabela.getSelectedRow() != -1) {
+            comboTipo.setSelectedItem(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
+            varInstituicao.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
+            varSaldo.setText(tabela.getValueAt(tabela.getSelectedRow(), 3).toString());
+        }
+    }//GEN-LAST:event_tabelaMouseClicked
+
+    private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
+    if (tabela.getSelectedRow() != -1) {
+           
+            int id = (int)tabela.getValueAt(tabela.getSelectedRow(), 0);
+            dao.deletar(id);
+            pesquisaInstituicao(varPesquisa.getText().trim());
+            JOptionPane.showMessageDialog(null, "Conta deletada com sucesso");
+        }
+    }//GEN-LAST:event_btDeletarActionPerformed
+
+    public boolean temErro() {
+
+        if (campoMenorQue3(varInstituicao.getText())) {
+            JOptionPane.showMessageDialog(null, "Insira uma instituição válida");
+        }
+
+        if (validarSaldo()) {
+            JOptionPane.showMessageDialog(null, "Insira um saldo válido");
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean validarSaldo() {
+        String saldo = varSaldo.getText().trim();
+        if (saldo.equals("")) {
+            return true;
+        } else {
+            saldo = saldo.replace(",", ".");
+            double valorSalario = Double.parseDouble(saldo);
+            if (valorSalario < 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    
+    
+    //METODOS AUXILIARES
+    
+    
+    private boolean campoMenorQue3(String campoValor) {
+        return campoValor.length() < 3;
+
+    }
+
+    public void pesquisaInstituicao(String instituicao) {
+
+        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        modelo.setNumRows(0);
+
+        for (Conta objetos : dao.pesquisaPorInstitucao(instituicao)) {
+            modelo.addRow(new Object[]{
+                objetos.getId(),
+                objetos.getTipo(),
+                objetos.getInstituicao(),
+                objetos.getSaldo()
+            });
+
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -228,12 +397,12 @@ public class ContaTela extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane PanelScrollTabela;
+    private javax.swing.JButton btAtualizar;
+    private javax.swing.JButton btCadastrar;
+    private javax.swing.JButton btDeletar;
+    private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btTransferencia;
     private javax.swing.JComboBox<String> comboTipo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

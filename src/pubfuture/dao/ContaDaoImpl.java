@@ -40,14 +40,12 @@ public class ContaDaoImpl {
             result = ps.getGeneratedKeys();
             result.next();
             conta.setId(result.getInt(1));
-
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Classe não encontrada, adicione o driver nas bibliotecas.");
-            Logger.getLogger(ContaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException e) {
-            System.out.println(e);
-            throw new RuntimeException(e);
+        } catch(Exception e){
+            System.out.println("erro ao salvar");
+            System.out.println(e.getMessage());
+            
         }
+       
     }
 
     
