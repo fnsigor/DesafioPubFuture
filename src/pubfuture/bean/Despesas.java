@@ -17,7 +17,7 @@ public class Despesas {
     private Double valor;
     private Date dtpagamento;
     private Date dtpagesperado;
-    private String descricao;
+    private String tipo;
     private Conta conta;
 
     public Integer getIddespesas() {
@@ -52,12 +52,12 @@ public class Despesas {
         this.dtpagesperado = dtpagesperado;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public Conta getConta() {
@@ -66,17 +66,6 @@ public class Despesas {
 
     public void setConta(Conta conta) {
         this.conta = conta;
-    }
-
-    public Despesas(Double valor, Date dtpagamento, Date dtpagesperado, String descricao, Conta conta) {
-        this.valor = valor;
-        this.dtpagamento = dtpagamento;
-        this.dtpagesperado = dtpagesperado;
-        this.descricao = descricao;
-        this.conta = conta;
-    }
-
-    public Despesas() {
     }
 
 }

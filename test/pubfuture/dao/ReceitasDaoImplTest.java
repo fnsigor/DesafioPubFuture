@@ -54,6 +54,21 @@ public class ReceitasDaoImplTest {
         receitasDao.alterar(receita);
     }
 
+    //@Test
+    public void testDeletar() {
+        receitasDao.deletar(4);
+    }
+
+    //@Test
+    public void testListar() {
+        List<Receitas> receitasdb = new ArrayList();
+        receitasdb = receitasDao.listar();
+        receitasdb.forEach((receita) -> {
+            verReceita(receita);
+        });
+
+    }
+
     public void verReceita(Receitas receita) {
         System.out.println("id receita: " + receita.getIdreceitas());
         System.out.println("valor receita: " + receita.getValor());
@@ -66,22 +81,4 @@ public class ReceitasDaoImplTest {
         System.out.println("saldo conta receita: " + receita.getConta().getSaldo());
 
     }
-
-    //@Test
-    public void testDeletar() {
-        receitasDao.deletar(4);
-    }
-
-   
-    //@Test
-    public void testListar() {
-        List<Receitas> receitasdb = new ArrayList();
-        receitasdb = receitasDao.listar();
-        receitasdb.forEach((receita) -> {
-            verReceita(receita);
-        });
-
-    }
 }
-
-

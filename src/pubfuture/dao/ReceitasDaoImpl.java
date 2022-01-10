@@ -29,10 +29,8 @@ public class ReceitasDaoImpl {
     private Conta conta;
     private ContaDaoImpl contaDao;
     private Receitas receita;
-    
-    
-    //TENTAR TIRAR DO SALDO O VALOR DA RECEITA AO DELETAR RECEITA
 
+    //TENTAR TIRAR DO SALDO O VALOR DA RECEITA AO DELETAR RECEITA
     public void registarReceita(Receitas receita) {
         sqlReceita = "INSERT INTO RECEITAS(VALOR, DTRECEBIMENTO, DTRECESPERADO, DESCRICAO, TIPO, IDCONTA) VALUES (?, ?, ?, ?, ?, ?)";
         sqlConta = "UPDATE CONTA SET SALDO=? WHERE IDCONTA=?";
@@ -94,7 +92,7 @@ public class ReceitasDaoImpl {
     public void alterar(Receitas x) {
 
         sqlReceita = "UPDATE RECEITAS SET VALOR=?, DTRECEBIMENTO=?, DTRECESPERADO=?, DESCRICAO=?, TIPO=? WHERE IDRECEITA= ?";
-        sqlConta = "UPDATE CONTA SET SALDO=? WHERE IDCONTA=?";
+
         try {
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sqlReceita);
