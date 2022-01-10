@@ -12,8 +12,8 @@ import pubfuture.bean.Conta;
  * @author Igor Fernandes
  */
 public class RegraNegocio {
-     public void registarReceita(Conta conta, double valorReceita) {
-        conta.setSaldo(valorReceita + conta.getSaldo());
+     public void registarReceita(Conta conta, double valor) {
+        conta.setSaldo(valor + conta.getSaldo());
 
     }
 

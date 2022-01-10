@@ -48,7 +48,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <Component id="panelDados" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="PanelScrollTabela" pref="245" max="32767" attributes="0"/>
+                  <Component id="PanelScrollTabela" pref="243" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -91,16 +91,15 @@
                                       <Component id="btCadastrar" min="-2" pref="81" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="btAtualizar" min="-2" pref="75" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="btDeletar" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="btTransferencia" min="-2" pref="145" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="btOperacoes" min="-2" pref="97" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btDeletar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -147,23 +146,15 @@
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="varSaldo" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="btTransferencia" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="btOperacoes" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace pref="27" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btTransferencia">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Transfer&#xea;ncia"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JTextField" name="varInstituicao">
             </Component>
             <Component class="javax.swing.JComboBox" name="comboTipo">
@@ -247,6 +238,20 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pesquisa por Institui&#xe7;&#xe3;o:"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btOperacoes">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Opera&#xe7;&#xf5;es"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[81, 23]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[81, 23]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btOperacoesActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

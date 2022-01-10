@@ -36,7 +36,6 @@ public class ContaTela extends javax.swing.JFrame {
 
         panelPrincipal = new javax.swing.JPanel();
         panelDados = new javax.swing.JPanel();
-        btTransferencia = new javax.swing.JButton();
         varInstituicao = new javax.swing.JTextField();
         comboTipo = new javax.swing.JComboBox<>();
         varSaldo = new javax.swing.JFormattedTextField();
@@ -49,13 +48,12 @@ public class ContaTela extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btOperacoes = new javax.swing.JButton();
         PanelScrollTabela = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Wellcome!");
-
-        btTransferencia.setText("Transferência");
 
         comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Carteira ", "Conta Corrente", "Poupança" }));
 
@@ -99,6 +97,15 @@ public class ContaTela extends javax.swing.JFrame {
 
         jLabel4.setText("Pesquisa por Instituição:");
 
+        btOperacoes.setText("Operações");
+        btOperacoes.setMaximumSize(new java.awt.Dimension(81, 23));
+        btOperacoes.setMinimumSize(new java.awt.Dimension(81, 23));
+        btOperacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btOperacoesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelDadosLayout = new javax.swing.GroupLayout(panelDados);
         panelDados.setLayout(panelDadosLayout);
         panelDadosLayout.setHorizontalGroup(
@@ -130,14 +137,13 @@ public class ContaTela extends javax.swing.JFrame {
                                 .addGap(336, 336, 336)
                                 .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadosLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btTransferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(85, 85, 85))))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btOperacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         panelDadosLayout.setVerticalGroup(
             panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,11 +177,9 @@ public class ContaTela extends javax.swing.JFrame {
                     .addGroup(panelDadosLayout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(varSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadosLayout.createSequentialGroup()
-                        .addComponent(btTransferencia)
-                        .addGap(42, 42, 42))))
+                        .addComponent(varSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btOperacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
@@ -218,7 +222,7 @@ public class ContaTela extends javax.swing.JFrame {
             .addGroup(panelPrincipalLayout.createSequentialGroup()
                 .addComponent(panelDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelScrollTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
+                .addComponent(PanelScrollTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -303,6 +307,10 @@ public class ContaTela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Conta deletada com sucesso");
         }
     }//GEN-LAST:event_btDeletarActionPerformed
+
+    private void btOperacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOperacoesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btOperacoesActionPerformed
 
     public boolean temErro() {
 
@@ -400,8 +408,8 @@ public class ContaTela extends javax.swing.JFrame {
     private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btCadastrar;
     private javax.swing.JButton btDeletar;
+    private javax.swing.JButton btOperacoes;
     private javax.swing.JButton btPesquisar;
-    private javax.swing.JButton btTransferencia;
     private javax.swing.JComboBox<String> comboTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
