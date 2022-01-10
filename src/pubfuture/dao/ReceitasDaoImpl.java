@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import pubfuture.bean.Conta;
 import pubfuture.bean.Receitas;
 
@@ -27,9 +29,10 @@ public class ReceitasDaoImpl {
     private Conta conta;
     private ContaDaoImpl contaDao;
     private Receitas receita;
+    
+    
+    //TENTAR TIRAR DO SALDO O VALOR DA RECEITA AO DELETAR RECEITA
 
-    
-    
     public void registarReceita(Receitas receita) {
         sqlReceita = "INSERT INTO RECEITAS(VALOR, DTRECEBIMENTO, DTRECESPERADO, DESCRICAO, TIPO, IDCONTA) VALUES (?, ?, ?, ?, ?, ?)";
         sqlConta = "UPDATE CONTA SET SALDO=? WHERE IDCONTA=?";
@@ -91,6 +94,7 @@ public class ReceitasDaoImpl {
     public void alterar(Receitas x) {
 
         sqlReceita = "UPDATE RECEITAS SET VALOR=?, DTRECEBIMENTO=?, DTRECESPERADO=?, DESCRICAO=?, TIPO=? WHERE IDRECEITA= ?";
+        sqlConta = "UPDATE CONTA SET SALDO=? WHERE IDCONTA=?";
         try {
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sqlReceita);
@@ -106,6 +110,57 @@ public class ReceitasDaoImpl {
             System.out.println(e.getMessage());
 
         }
+    }
+
+    public void deletar(int id) {
+
+        sqlReceita = "DELETE FROM RECEITAS WHERE IDRECEITA= ?";
+        sqlConta = "UPDATE CONTA SET SALDO=? WHERE IDCONTA=?";
+
+        try {
+            //deletar
+            connection = ConnectionFactory.abreConexao();
+            ps = connection.prepareStatement(sqlReceita);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println("erro ao deletar por id");
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public List<Receitas> listar() {
+        sqlReceita = "SELECT * FROM RECEITAS";
+        List<Receitas> receitasdb = new ArrayList<>();
+
+        try {
+            connection = ConnectionFactory.abreConexao();
+            ps = connection.prepareStatement(sqlReceita);
+            result = ps.executeQuery();
+
+            while (result.next()) {
+                receita = new Receitas();
+                receita.setIdreceitas(result.getInt("idreceita"));
+                receita.setValor(result.getDouble("valor"));
+                receita.setDtrecebimento(result.getDate("dtrecebimento"));
+                receita.setDtrecesperado(result.getDate("dtrecesperado"));
+                receita.setDescricao(result.getString("descricao"));
+                receita.setTipo(result.getString("tipo"));
+                contaDao = new ContaDaoImpl();
+                receita.setConta(contaDao.pesquisaPorId(result.getInt("idconta")));
+                receitasdb.add(receita);
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("erro ao listar");
+            System.out.println(e.getMessage());
+        }
+
+        return receitasdb;
+
     }
 
 }

@@ -5,7 +5,9 @@
  */
 package pubfuture.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import pubfuture.bean.Conta;
@@ -16,54 +18,70 @@ import pubfuture.bean.Receitas;
  * @author Igor Fernandes
  */
 public class ReceitasDaoImplTest {
+
     Receitas receita = new Receitas();
     ReceitasDaoImpl receitasDao = new ReceitasDaoImpl();
     Conta conta = new Conta();
-    ContaDaoImpl  contasDao = new ContaDaoImpl();
-    
+    ContaDaoImpl contasDao = new ContaDaoImpl();
+
     public ReceitasDaoImplTest() {
     }
 
     //@Test
     public void testRegistarReceita() {
-       receita.setValor(20.0);
+        receita.setValor(8.0);
         receita.setDtrecebimento(new Date());
         receita.setDtrecesperado(new Date());
-        receita.setDescricao("teste 22222");
+        receita.setDescricao("yyyyyy");
         receita.setTipo("Presente");
-        conta = contasDao.pesquisaPorId(1);
+        conta = contasDao.pesquisaPorId(7);
         receita.setConta(conta);
         receitasDao.registarReceita(receita);
     }
 
     //@Test
     public void testPesquisaPorId() {
-       receita = receitasDao.pesquisaPorId(3);
+        receita = receitasDao.pesquisaPorId(3);
         verReceita(receita);
-       
+
     }
 
-   //@Test
+    //@Test
     public void testAlterar() {
-       receita = receitasDao.pesquisaPorId(3);
-       receita.setDescricao("xxxxxxxxxx");
-       receitasDao.alterar(receita);
+        receita = receitasDao.pesquisaPorId(5);
+        receita.setDescricao("xxxxxxxxxx");
+        receita.setValor(10.0);
+        receitasDao.alterar(receita);
     }
-    
-    
-    
-    public void verReceita(Receitas receita){
-        System.out.println("id receita: "+receita.getIdreceitas());
-        System.out.println("valor receita: "+receita.getValor());
-        System.out.println("dtrecebiemtno receita: "+receita.getDtrecebimento());
-        System.out.println("dtrecesperado receita: "+receita.getDtrecesperado());
-        System.out.println("descricao receita: "+receita.getDescricao());
-        System.out.println("tipo receita: "+receita.getTipo());
-        System.out.println("conta receita: "+receita.getConta().getId());
-        System.out.println("instituicao conta receita: "+receita.getConta().getInstituicao());
-        System.out.println("saldo conta receita: "+receita.getConta().getSaldo());
-        
+
+    public void verReceita(Receitas receita) {
+        System.out.println("id receita: " + receita.getIdreceitas());
+        System.out.println("valor receita: " + receita.getValor());
+        System.out.println("dtrecebiemtno receita: " + receita.getDtrecebimento());
+        System.out.println("dtrecesperado receita: " + receita.getDtrecesperado());
+        System.out.println("descricao receita: " + receita.getDescricao());
+        System.out.println("tipo receita: " + receita.getTipo());
+        System.out.println("conta receita: " + receita.getConta().getId());
+        System.out.println("instituicao conta receita: " + receita.getConta().getInstituicao());
+        System.out.println("saldo conta receita: " + receita.getConta().getSaldo());
+
     }
-    
-    
+
+    //@Test
+    public void testDeletar() {
+        receitasDao.deletar(4);
+    }
+
+   
+    //@Test
+    public void testListar() {
+        List<Receitas> receitasdb = new ArrayList();
+        receitasdb = receitasDao.listar();
+        receitasdb.forEach((receita) -> {
+            verReceita(receita);
+        });
+
+    }
 }
+
+
