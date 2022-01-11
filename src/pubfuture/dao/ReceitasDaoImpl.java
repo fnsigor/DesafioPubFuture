@@ -21,6 +21,7 @@ import pubfuture.bean.Receitas;
 public class ReceitasDaoImpl {
 
     private Connection connection;
+
     private PreparedStatement ps;
     private PreparedStatement psSaldo;
     private ResultSet result;
@@ -88,6 +89,38 @@ public class ReceitasDaoImpl {
         }
         return receita;
     }
+    
+    
+    public List<Receitas> pesquisaIdLista(int idReceita) {
+        sqlReceita = "SELECT * FROM RECEITAS WHERE IDRECEITA= ? ";
+        List<Receitas> receitas = new ArrayList<>();
+
+        try {
+            connection = ConnectionFactory.abreConexao();
+            ps = connection.prepareStatement(sqlReceita);
+            ps.setInt(1,idReceita);
+            result = ps.executeQuery();
+
+            while (result.next()) {
+                receita = new Receitas();
+                receita.setIdreceitas(result.getInt("idreceita"));
+                receita.setDtrecebimento(result.getDate("dtrecebimento"));
+                receita.setDtrecesperado(result.getDate("dtrecesperado"));
+                receita.setTipo(result.getString("tipo"));
+                receita.setDescricao(result.getString("descricao"));
+                receita.setValor(result.getDouble("valor"));
+                ContaDaoImpl dao = new ContaDaoImpl();
+                receita.setConta(dao.pesquisaPorId(result.getInt("idconta")));
+                receitas.add(receita);
+            }
+
+        } catch (Exception e) {
+            System.out.println("erro ao pesquisar por nome");
+            System.out.println(e.getMessage());
+        }
+        return receitas;
+    }
+    
 
     public void alterar(Receitas x) {
 
@@ -113,14 +146,12 @@ public class ReceitasDaoImpl {
     public void deletar(int id) {
 
         sqlReceita = "DELETE FROM RECEITAS WHERE IDRECEITA= ?";
-        sqlConta = "UPDATE CONTA SET SALDO=? WHERE IDCONTA=?";
 
         try {
-            //deletar
+
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sqlReceita);
             ps.setInt(1, id);
-            ps.executeUpdate();
 
         } catch (Exception e) {
             System.out.println("erro ao deletar por id");

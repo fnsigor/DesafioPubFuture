@@ -29,12 +29,12 @@ public class ReceitasDaoImplTest {
 
     //@Test
     public void testRegistarReceita() {
-        receita.setValor(8.0);
+        receita.setValor(100.0);
         receita.setDtrecebimento(new Date());
         receita.setDtrecesperado(new Date());
         receita.setDescricao("yyyyyy");
         receita.setTipo("Presente");
-        conta = contasDao.pesquisaPorId(7);
+        conta = contasDao.pesquisaPorId(1);
         receita.setConta(conta);
         receitasDao.registarReceita(receita);
     }
@@ -56,7 +56,7 @@ public class ReceitasDaoImplTest {
 
     //@Test
     public void testDeletar() {
-        receitasDao.deletar(4);
+        receitasDao.deletar(5);
     }
 
     //@Test

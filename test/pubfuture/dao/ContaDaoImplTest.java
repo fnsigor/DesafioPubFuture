@@ -22,13 +22,17 @@ public class ContaDaoImplTest {
        dao  = new ContaDaoImpl();
     }
 
-    //@Test
+   // @Test
+    
+    
     public void testSalvar() throws Exception {
        Conta objeto = new Conta();
-       objeto.setInstituicao("ultimotesteunitarioo");
-       objeto.setTipo("Poupança");
-       objeto.setSaldo(1750.99);
+       objeto.setInstituicao("Nubannk");
+       objeto.setTipo("Carteira");
+       objeto.setSaldo(100);
+       for(int i=0; i<6; i++){
        dao.salvar(objeto);
+       }
     }
     
    // @Test

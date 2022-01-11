@@ -40,9 +40,9 @@ public class DespesasDaoImpl {
             ps.setDouble(1, despesa.getValor());
             ps.setDate(2, new Date(despesa.getDtpagamento().getTime()));
             ps.setDate(3, new Date(despesa.getDtpagesperado().getTime()));
-
             ps.setString(4, despesa.getTipo());
             ps.setObject(5, despesa.getConta().getId());
+            
             double novoSaldo = despesa.getConta().getSaldo() - despesa.getValor();
             psSaldo = connection.prepareStatement(sqlConta);
             psSaldo.setDouble(1, novoSaldo);

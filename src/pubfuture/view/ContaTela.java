@@ -53,7 +53,7 @@ public class ContaTela extends javax.swing.JFrame {
         tabela = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Wellcome!");
+        setTitle("Welcome!");
 
         comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Carteira ", "Conta Corrente", "Poupança" }));
 
@@ -309,7 +309,7 @@ public class ContaTela extends javax.swing.JFrame {
     }//GEN-LAST:event_btDeletarActionPerformed
 
     private void btOperacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOperacoesActionPerformed
-        // TODO add your handling code here:
+        new OperacoesTela().setVisible(true);
     }//GEN-LAST:event_btOperacoesActionPerformed
 
     public boolean temErro() {
