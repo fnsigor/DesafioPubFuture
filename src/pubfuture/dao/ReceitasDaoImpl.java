@@ -152,7 +152,7 @@ public class ReceitasDaoImpl {
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sqlReceita);
             ps.setInt(1, id);
-
+            ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("erro ao deletar por id");
             System.out.println(e.getMessage());
