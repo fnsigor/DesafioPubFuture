@@ -160,6 +160,34 @@ public class DespesasDaoImpl {
 
     }
     
+    public List<Despesas> pesquisaIdLista(int idDespesa) {
+        sqlDespesa = "SELECT * FROM RECEITAS WHERE IDRECEITA= ? ";
+        List<Despesas> despesas = new ArrayList<>();
+
+        try {
+            connection = ConnectionFactory.abreConexao();
+            ps = connection.prepareStatement(sqlDespesa);
+            ps.setInt(1,idDespesa);
+            result = ps.executeQuery();
+
+            while (result.next()) {
+                despesa = new Despesas();
+                despesa.setIddespesas(result.getInt("iddespesa"));
+                despesa.setDtpagamento(result.getDate("dtpagamento"));
+                despesa.setDtpagesperado(result.getDate("dtpagesperado"));
+                despesa.setTipo(result.getString("tipo"));
+                despesa.setValor(result.getDouble("valor"));
+                ContaDaoImpl dao = new ContaDaoImpl();
+                despesa.setConta(dao.pesquisaPorId(result.getInt("idconta")));
+                despesas.add(despesa);
+            }
+
+        } catch (Exception e) {
+            System.out.println("erro ao pesquisar por nome");
+            System.out.println(e.getMessage());
+        }
+        return despesas;
+    }
     
 
 }

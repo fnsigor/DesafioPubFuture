@@ -45,19 +45,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="varDescricao" alignment="0" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="varDtRecebimento" min="-2" pref="90" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel2" pref="176" max="32767" attributes="0"/>
-                                      <Component id="varDtRecEsperado" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <Component id="varDtPagamento" min="-2" pref="90" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel2" pref="174" max="32767" attributes="0"/>
+                              <Component id="varDtPagEsperado" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="214" max="-2" attributes="0"/>
                       </Group>
@@ -136,8 +131,8 @@
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="103" groupAlignment="3" attributes="0">
-                                                  <Component id="varDtRecebimento" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="varDtRecEsperado" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="varDtPagamento" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="varDtPagEsperado" alignment="3" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="varPesquisa" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
@@ -146,12 +141,10 @@
                                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="varDescricao" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="btPesquisa" min="-2" pref="41" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="btAtualizar" min="-2" pref="41" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -194,14 +187,14 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JFormattedTextField" name="varDtRecebimento">
+        <Component class="javax.swing.JFormattedTextField" name="varDtPagamento">
           <Properties>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
               <Format format="##/##/####" subtype="-1" type="5"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="varDtRecEsperado">
+        <Component class="javax.swing.JFormattedTextField" name="varDtPagEsperado">
           <Properties>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
               <Format format="##/##/####" subtype="-1" type="5"/>
@@ -212,15 +205,13 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Data de recebimento:"/>
+            <Property name="text" type="java.lang.String" value="Data de pagamento:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Data esperada de recebimento:"/>
+            <Property name="text" type="java.lang.String" value="Data esperada do pagamento:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="varDescricao">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
@@ -230,11 +221,15 @@
         <Component class="javax.swing.JComboBox" name="comboTipo">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Sal&#xe1;rio"/>
-                <StringItem index="1" value="Presente"/>
-                <StringItem index="2" value="Pr&#xea;mio"/>
-                <StringItem index="3" value="Outros"/>
+              <StringArray count="8">
+                <StringItem index="0" value="Alimenta&#xe7;&#xe3;o"/>
+                <StringItem index="1" value="Educa&#xe7;&#xe3;o"/>
+                <StringItem index="2" value="Lazer"/>
+                <StringItem index="3" value="Moradia"/>
+                <StringItem index="4" value="Roupa"/>
+                <StringItem index="5" value="Sa&#xfa;de"/>
+                <StringItem index="6" value="Transporte"/>
+                <StringItem index="7" value="Outros"/>
               </StringArray>
             </Property>
           </Properties>
@@ -265,7 +260,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ID Receita:"/>
+            <Property name="text" type="java.lang.String" value="ID despesa:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btCadastrar">
@@ -312,7 +307,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btVizualizar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Vizualizar todas as receitas"/>
+            <Property name="text" type="java.lang.String" value="Vizualizar todas as despesas"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btVizualizarActionPerformed"/>
@@ -330,7 +325,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel10">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pesquisar receita por ID"/>
+            <Property name="text" type="java.lang.String" value="Pesquisar despesa por ID"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -340,23 +335,17 @@
             <Component class="javax.swing.JTable" name="tabela">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="0">
-                    <Column editable="false" title="ID Receita" type="java.lang.Object"/>
-                    <Column editable="false" title="Dt Recebimento" type="java.lang.Object"/>
-                    <Column editable="false" title="Dt Recebimento esperado" type="java.lang.Object"/>
-                    <Column editable="false" title="Descri&#xe7;&#xe3;o" type="java.lang.Object"/>
-                    <Column editable="true" title="Tipo" type="java.lang.Object"/>
+                  <Table columnCount="6" rowCount="0">
+                    <Column editable="false" title="ID Despesa" type="java.lang.Object"/>
+                    <Column editable="false" title="Dt Pagamento" type="java.lang.Object"/>
+                    <Column editable="false" title="Dt pagamento esperado" type="java.lang.Object"/>
+                    <Column editable="false" title="Tipo" type="java.lang.Object"/>
                     <Column editable="false" title="ID Conta" type="java.lang.Object"/>
-                    <Column editable="true" title="Valor" type="java.lang.Object"/>
+                    <Column editable="false" title="Valor" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>

@@ -15,25 +15,27 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pubfuture.bean.Conta;
-import pubfuture.bean.Receitas;
+import pubfuture.bean.Despesas;
+
 import pubfuture.dao.ContaDaoImpl;
-import pubfuture.dao.ReceitasDaoImpl;
+import pubfuture.dao.DespesasDaoImpl;
+
 import sun.font.TrueTypeFont;
 
 /**
  *
  * @author Igor Fernandes
  */
-public class ReceitasTela extends javax.swing.JFrame {
+public class DespesasTela extends javax.swing.JFrame {
 
-    Receitas receita = new Receitas();
-    ReceitasDaoImpl dao = new ReceitasDaoImpl();
+    Despesas despesa = new Despesas();
+    DespesasDaoImpl dao = new DespesasDaoImpl();
     Conta conta = new Conta();
     ContaDaoImpl daoConta = new ContaDaoImpl();
 
-    List<Receitas> receitas;
+    List<Despesas> despesas;
 
-    public ReceitasTela() {
+    public DespesasTela() {
         initComponents();
         listar();
 
@@ -49,12 +51,11 @@ public class ReceitasTela extends javax.swing.JFrame {
     private void initComponents() {
 
         panelDados = new javax.swing.JPanel();
-        varDtRecebimento = new javax.swing.JFormattedTextField();
-        varDtRecEsperado = new javax.swing.JFormattedTextField();
+        varDtPagamento = new javax.swing.JFormattedTextField();
+        varDtPagEsperado = new javax.swing.JFormattedTextField();
         varValor = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        varDescricao = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         comboTipo = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
@@ -77,24 +78,24 @@ public class ReceitasTela extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         try {
-            varDtRecebimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            varDtPagamento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
         try {
-            varDtRecEsperado.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            varDtPagEsperado.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
-        jLabel1.setText("Data de recebimento:");
+        jLabel1.setText("Data de pagamento:");
 
-        jLabel2.setText("Data esperada de recebimento:");
+        jLabel2.setText("Data esperada do pagamento:");
 
         jLabel3.setText("Descrição:");
 
-        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Salário", "Presente", "Prêmio", "Outros" }));
+        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alimentação", "Educação", "Lazer", "Moradia", "Roupa", "Saúde", "Transporte", "Outros" }));
 
         jLabel4.setText("Tipo:");
 
@@ -108,7 +109,7 @@ public class ReceitasTela extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("ID Receita:");
+        jLabel6.setText("ID despesa:");
 
         btCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pubfuture/icons/adicionar.png"))); // NOI18N
         btCadastrar.setToolTipText("Cadastrar Receita");
@@ -136,7 +137,7 @@ public class ReceitasTela extends javax.swing.JFrame {
 
         jLabel7.setText("ID Conta:");
 
-        btVizualizar.setText("Vizualizar todas as receitas");
+        btVizualizar.setText("Vizualizar todas as despesas");
         btVizualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btVizualizarActionPerformed(evt);
@@ -147,18 +148,18 @@ public class ReceitasTela extends javax.swing.JFrame {
 
         jLabel9.setText("Excluir");
 
-        jLabel10.setText("Pesquisar receita por ID");
+        jLabel10.setText("Pesquisar despesa por ID");
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID Receita", "Dt Recebimento", "Dt Recebimento esperado", "Descrição", "Tipo", "ID Conta", "Valor"
+                "ID Despesa", "Dt Pagamento", "Dt pagamento esperado", "Tipo", "ID Conta", "Valor"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, false, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -185,16 +186,13 @@ public class ReceitasTela extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDadosLayout.createSequentialGroup()
-                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(varDescricao, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelDadosLayout.createSequentialGroup()
-                                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(varDtRecebimento, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(30, 30, 30)
-                                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                                    .addComponent(varDtRecEsperado, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(varDtPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                            .addComponent(varDtPagEsperado, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(214, 214, 214))
                     .addGroup(panelDadosLayout.createSequentialGroup()
                         .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,17 +252,15 @@ public class ReceitasTela extends javax.swing.JFrame {
                                     .addGroup(panelDadosLayout.createSequentialGroup()
                                         .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(varDtRecebimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(varDtRecEsperado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(varDtPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(varDtPagEsperado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(varPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel3)
-                                            .addComponent(jLabel10))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(varDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel10)))
                                     .addComponent(btPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(14, 14, 14)
+                                .addGap(39, 39, 39)
                                 .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -318,27 +314,26 @@ public class ReceitasTela extends javax.swing.JFrame {
         if (!temErro()) {
 
             DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-            String dataString = varDtRecebimento.getText();
+            String dataString = varDtPagamento.getText();
 
             try {
-                receita.setDtrecebimento(new java.sql.Date(fmt.parse(dataString).getTime()));
+                despesa.setDtpagamento(new java.sql.Date(fmt.parse(dataString).getTime()));
             } catch (ParseException ex) {
-                Logger.getLogger(ReceitasTela.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DespesasTela.class.getName()).log(Level.SEVERE, null, ex);
             }
-            dataString = varDtRecEsperado.getText();
+            dataString = varDtPagEsperado.getText();
             try {
-                receita.setDtrecesperado(new java.sql.Date(fmt.parse(dataString).getTime()));
+                despesa.setDtpagesperado(new java.sql.Date(fmt.parse(dataString).getTime()));
             } catch (ParseException ex) {
-                Logger.getLogger(ReceitasTela.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DespesasTela.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            receita.setDescricao(varDescricao.getText().trim());
-            receita.setTipo((String) comboTipo.getSelectedItem());
-            receita.setValor(Double.parseDouble(varValor.getText().trim()));
+            despesa.setTipo((String) comboTipo.getSelectedItem());
+            despesa.setValor(Double.parseDouble(varValor.getText().trim()));
 
             conta = daoConta.pesquisaPorId(Integer.parseInt(varIdConta.getText()));
-            receita.setConta(conta);
-            dao.registarReceita(receita);
+            despesa.setConta(conta);
+            dao.registarDespesa(despesa);
 
             JOptionPane.showMessageDialog(null, "Conta cadastrada com sucesso");
             limparCampos();
@@ -350,9 +345,8 @@ public class ReceitasTela extends javax.swing.JFrame {
     private void tabelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelaKeyReleased
         if (tabela.getSelectedRow() != -1) {
 
-            varDtRecebimento.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
-            varDtRecEsperado.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
-            varDescricao.setText(tabela.getValueAt(tabela.getSelectedRow(), 3).toString());
+            varDtPagamento.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
+            varDtPagEsperado.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
             comboTipo.setSelectedItem(tabela.getValueAt(tabela.getSelectedRow(), 4).toString());
             varIdConta.setText(tabela.getValueAt(tabela.getSelectedRow(), 5).toString());
             varValor.setText(tabela.getValueAt(tabela.getSelectedRow(), 6).toString());
@@ -363,9 +357,8 @@ public class ReceitasTela extends javax.swing.JFrame {
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         if (tabela.getSelectedRow() != -1) {
 
-            varDtRecebimento.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
-            varDtRecEsperado.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
-            varDescricao.setText(tabela.getValueAt(tabela.getSelectedRow(), 3).toString());
+            varDtPagamento.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
+            varDtPagEsperado.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
             comboTipo.setSelectedItem(tabela.getValueAt(tabela.getSelectedRow(), 4).toString());
             varIdConta.setText(tabela.getValueAt(tabela.getSelectedRow(), 5).toString());
             varValor.setText(tabela.getValueAt(tabela.getSelectedRow(), 6).toString());
@@ -374,34 +367,33 @@ public class ReceitasTela extends javax.swing.JFrame {
     }//GEN-LAST:event_tabelaMouseClicked
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-        if (validarDtRecebimento()) {
-            JOptionPane.showMessageDialog(null, "Insira a data de recebimento");
+        if (validarDtPagamento()) {
+            JOptionPane.showMessageDialog(null, "Insira a data de pagamento");
         }
-        if (validarDtRecEsperado()) {
-            JOptionPane.showMessageDialog(null, "Insira a data esperada de recebimento");
+        if (validarDtPagEsperado()) {
+            JOptionPane.showMessageDialog(null, "Insira a data esperada de pagamento");
         }
 
         if (tabela.getSelectedRow() != 1) {
             try {
-                receita = dao.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
+                despesa = dao.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
                 DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-                String dataString = varDtRecebimento.getText();
-                receita.setDtrecebimento(new java.sql.Date(fmt.parse(dataString).getTime()));
-                dataString = varDtRecEsperado.getText();
-                receita.setDtrecesperado(new java.sql.Date(fmt.parse(dataString).getTime()));
-                receita.setDescricao(varDescricao.getText().trim());
-                receita.setTipo((String) comboTipo.getSelectedItem());
-                receita.setValor(Double.parseDouble(varValor.getText().trim()));
+                String dataString = varDtPagamento.getText();
+                despesa.setDtpagamento(new java.sql.Date(fmt.parse(dataString).getTime()));
+                dataString = varDtPagEsperado.getText();
+                despesa.setDtpagesperado(new java.sql.Date(fmt.parse(dataString).getTime()));
+                despesa.setTipo((String) comboTipo.getSelectedItem());
+                despesa.setValor(Double.parseDouble(varValor.getText().trim()));
                 conta = daoConta.pesquisaPorId(Integer.parseInt(varIdConta.getText()));
-                receita.setConta(conta);
-                dao.alterar(receita);
+                despesa.setConta(conta);
+                dao.alterar(despesa);
 
-                JOptionPane.showMessageDialog(null, "Receita atualizada com sucesso");
+                JOptionPane.showMessageDialog(null, "Despesa atualizada com sucesso");
                 limparCampos();
                 listar();
 
             } catch (ParseException ex) {
-                Logger.getLogger(ReceitasTela.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DespesasTela.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btAtualizarActionPerformed
@@ -409,21 +401,20 @@ public class ReceitasTela extends javax.swing.JFrame {
     private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
         if (tabela.getSelectedRow() != -1) {
             int id = (int) tabela.getValueAt(tabela.getSelectedRow(), 0);
-           
-            
-          //alterando o saldo ao excluir receita
-          receita = dao.pesquisaPorId(id);
-          double novoSaldo = receita.getConta().getSaldo() - receita.getValor();
-          int idConta = receita.getConta().getId();
-          conta = daoConta.pesquisaPorId(idConta);
-          conta.setSaldo(novoSaldo);
-          daoConta.alterar(conta);
-          //alterando o saldo ao excluir receita
-          
-          dao.deletar(id);
-          JOptionPane.showMessageDialog(null, "Conta deletada com sucesso");
-          listar();
-            
+
+            //alterando o saldo ao excluir despesa
+            despesa = dao.pesquisaPorId(id);
+            double novoSaldo = despesa.getConta().getSaldo() + despesa.getValor();
+            int idConta = despesa.getConta().getId();
+            conta = daoConta.pesquisaPorId(idConta);
+            conta.setSaldo(novoSaldo);
+            daoConta.alterar(conta);
+            //alterando o saldo ao excluir despesa
+
+            dao.deletar(id);
+            JOptionPane.showMessageDialog(null, "Conta deletada com sucesso");
+            listar();
+
         }
     }//GEN-LAST:event_btDeletarActionPerformed
 
@@ -434,20 +425,15 @@ public class ReceitasTela extends javax.swing.JFrame {
     //METODO PARA VALIDAÇÃO DE DADOS INFORMADOS
     private boolean temErro() {
 
-        if (validarDtRecebimento()) {
+        if (validarDtPagamento()) {
             JOptionPane.showMessageDialog(null, "Insira uma data válida");
             return true;
         }
 
-        if (validarDtRecEsperado()) {
+        if (validarDtPagEsperado()) {
             JOptionPane.showMessageDialog(null, "Insira uma data válida");
             return true;
 
-        }
-
-        if (campoMenorQue3Digitos(varDescricao.getText())) {
-            JOptionPane.showMessageDialog(null, "Insira uma descrição válida");
-            return true;
         }
 
         if (validarValor()) {
@@ -465,15 +451,15 @@ public class ReceitasTela extends javax.swing.JFrame {
     //METODO PARA VALIDAÇÃO DE DADOS INFORMADOS
 
     //METODOS AUXILIARES
-    private boolean validarDtRecebimento() {
-        String dataRecebimento = varDtRecebimento.getText().trim();
-        String primeiroCaracter = dataRecebimento.substring(0, 1);
+    private boolean validarDtPagamento() {
+        String dataPagamento = varDtPagamento.getText().trim();
+        String primeiroCaracter = dataPagamento.substring(0, 1);
         return primeiroCaracter.equals("/");
     }
 
-    private boolean validarDtRecEsperado() {
-        String dtRecEsperado = varDtRecEsperado.getText().trim();
-        String primeiroCaracter = dtRecEsperado.substring(0, 1);
+    private boolean validarDtPagEsperado() {
+        String dtPagEsperado = varDtPagEsperado.getText().trim();
+        String primeiroCaracter = dtPagEsperado.substring(0, 1);
         return primeiroCaracter.equals("/");
     }
 
@@ -492,22 +478,16 @@ public class ReceitasTela extends javax.swing.JFrame {
         return false;
     }
 
-    private boolean campoMenorQue3Digitos(String valorCampo) {
-        return valorCampo.length() < 3;
-
-    }
-
     public void pesquisaId(int idReceita) {
 
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        for (Receitas objetos : dao.pesquisaIdLista(idReceita)) {
+        for (Despesas objetos : dao.pesquisaIdLista(idReceita)) {
             modelo.addRow(new Object[]{
-                objetos.getIdreceitas(),
-                objetos.getDtrecebimento(),
-                objetos.getDtrecesperado(),
-                objetos.getDescricao(),
+                objetos.getIddespesas(),
+                objetos.getDtpagamento(),
+                objetos.getDtpagesperado(),
                 objetos.getTipo(),
                 objetos.getConta().getId(),
                 objetos.getValor()
@@ -523,12 +503,11 @@ public class ReceitasTela extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        for (Receitas objetos : dao.listar()) {
+        for (Despesas objetos : dao.listar()) {
             modelo.addRow(new Object[]{
-                objetos.getIdreceitas(),
-                objetos.getDtrecebimento(),
-                objetos.getDtrecesperado(),
-                objetos.getDescricao(),
+                objetos.getIddespesas(),
+                objetos.getDtpagamento(),
+                objetos.getDtpagesperado(),
                 objetos.getTipo(),
                 objetos.getConta().getId(),
                 objetos.getValor()
@@ -540,9 +519,8 @@ public class ReceitasTela extends javax.swing.JFrame {
     }
 
     private void limparCampos() {
-        varDtRecebimento.setText("");
-        varDtRecEsperado.setText("");
-        varDescricao.setText("");
+        varDtPagamento.setText("");
+        varDtPagEsperado.setText("");
         varIdConta.setText("");
         varValor.setText("");
     }
@@ -565,20 +543,21 @@ public class ReceitasTela extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReceitasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DespesasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReceitasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DespesasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReceitasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DespesasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReceitasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DespesasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ReceitasTela().setVisible(true);
+                new DespesasTela().setVisible(true);
             }
         });
     }
@@ -603,9 +582,8 @@ public class ReceitasTela extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelDados;
     private javax.swing.JTable tabela;
-    private javax.swing.JTextField varDescricao;
-    private javax.swing.JFormattedTextField varDtRecEsperado;
-    private javax.swing.JFormattedTextField varDtRecebimento;
+    private javax.swing.JFormattedTextField varDtPagEsperado;
+    private javax.swing.JFormattedTextField varDtPagamento;
     private javax.swing.JFormattedTextField varIdConta;
     private javax.swing.JFormattedTextField varPesquisa;
     private javax.swing.JFormattedTextField varValor;
