@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pubfuture.bean.Conta;
+import pubfuture.regra_negocio.RegraNegocio;
 
 /**
  *
@@ -26,16 +27,17 @@ public class ContaDaoImpl {
     private ResultSet result;
     private String sql;
     private Conta conta;
-
+    
     public void salvar(Conta conta) throws Exception {
 
-        sql = "INSERT INTO CONTA(TIPO, INSTITUICAO, SALDO) VALUES (?, ?, ?)";
+        sql = "INSERT INTO CONTA(TIPO, INSTITUICAO, SALDO, NUMEROCONTA) VALUES (?, ?, ?, ?)";
         try {
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, conta.getTipo());
             ps.setString(2, conta.getInstituicao());
             ps.setDouble(3, conta.getSaldo());
+            ps.setString(4, conta.getNumeroconta());
             ps.executeUpdate();
             result = ps.getGeneratedKeys();
             result.next();
@@ -144,6 +146,7 @@ public class ContaDaoImpl {
                 conta.setInstituicao(result.getString("instituicao"));
                 conta.setTipo(result.getString("tipo"));
                 conta.setSaldo(result.getDouble("saldo"));
+                conta.setNumeroconta(result.getString("numeroconta0"));
                 contas.add(conta);
             }
 

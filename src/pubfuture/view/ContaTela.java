@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pubfuture.bean.Conta;
 import pubfuture.dao.ContaDaoImpl;
+import pubfuture.regra_negocio.RegraNegocio;
 
 /**
  *
@@ -20,6 +21,7 @@ public class ContaTela extends javax.swing.JFrame {
 
     ContaDaoImpl dao = new ContaDaoImpl();
     Conta objeto = new Conta();
+    RegraNegocio regraNegocio = new RegraNegocio();
 
     public ContaTela() {
         initComponents();
@@ -187,11 +189,11 @@ public class ContaTela extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Tipo", "Instituição", "Saldo"
+                "ID", "Tipo", "Instituição", "Saldo", "Número Conta"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -247,6 +249,7 @@ public class ContaTela extends javax.swing.JFrame {
             objeto.setInstituicao(varInstituicao.getText().trim());
             objeto.setTipo((String) comboTipo.getSelectedItem());
             objeto.setSaldo(Double.parseDouble(varSaldo.getText().replace(",", ".")));
+            objeto.setNumeroconta(regraNegocio.gerarNumeroConta());
             try {
                 dao.salvar(objeto);
             } catch (Exception ex) {
@@ -361,7 +364,8 @@ public class ContaTela extends javax.swing.JFrame {
                 objetos.getId(),
                 objetos.getTipo(),
                 objetos.getInstituicao(),
-                objetos.getSaldo()
+                objetos.getSaldo(),
+                objetos.getNumeroconta()
             });
 
         }

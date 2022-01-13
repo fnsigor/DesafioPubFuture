@@ -15,6 +15,16 @@ public class Conta {
     private String tipo;
     private String instituicao;
     private double saldo;
+    private String numeroconta;
+
+    public String getNumeroconta() {
+        return numeroconta;
+    }
+
+    public void setNumeroconta(String numeroconta) {
+        this.numeroconta = numeroconta;
+    }
+
 
     public Integer getId() {
         return idconta;
@@ -46,16 +56,6 @@ public class Conta {
 
     public void setSaldo(double saldo) {
         this.saldo = saldo;
-    }
-
-    public Conta(String tipo, String instituicao, double saldo) {
-        this.tipo = tipo;
-        this.instituicao = instituicao;
-        this.saldo = saldo;
-    }
-
-    public Conta() {
-
     }
 
 }

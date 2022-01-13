@@ -55,6 +55,11 @@ public class OperacoesTela extends javax.swing.JFrame {
         });
 
         btTransferencias.setText("Transferência");
+        btTransferencias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btTransferenciasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -108,6 +113,10 @@ public class OperacoesTela extends javax.swing.JFrame {
     private void btDespesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDespesasActionPerformed
     new DespesasTela().setVisible(true);
     }//GEN-LAST:event_btDespesasActionPerformed
+
+    private void btTransferenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTransferenciasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btTransferenciasActionPerformed
 
     /**
      * @param args the command line arguments
