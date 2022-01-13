@@ -48,6 +48,11 @@ public class OperacoesTela extends javax.swing.JFrame {
         });
 
         btDespesas.setText("Despesas");
+        btDespesas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDespesasActionPerformed(evt);
+            }
+        });
 
         btTransferencias.setText("Transferência");
 
@@ -99,6 +104,10 @@ public class OperacoesTela extends javax.swing.JFrame {
     private void btReceitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReceitasActionPerformed
      new ReceitasTela().setVisible(true);
     }//GEN-LAST:event_btReceitasActionPerformed
+
+    private void btDespesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDespesasActionPerformed
+    new DespesasTela().setVisible(true);
+    }//GEN-LAST:event_btDespesasActionPerformed
 
     /**
      * @param args the command line arguments
