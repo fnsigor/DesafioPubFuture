@@ -188,6 +188,34 @@ public class DespesasDaoImpl {
         }
         return despesas;
     }
+    public List<Despesas> pesquisaIdContaLista(int idConta) {
+        sqlDespesa = "SELECT * FROM DESPESAS WHERE IDCONTA= ? ";
+        List<Despesas> despesas = new ArrayList<>();
+
+        try {
+            connection = ConnectionFactory.abreConexao();
+            ps = connection.prepareStatement(sqlDespesa);
+            ps.setInt(1,idConta);
+            result = ps.executeQuery();
+
+            while (result.next()) {
+                despesa = new Despesas();
+                despesa.setIddespesas(result.getInt("iddespesa"));
+                despesa.setDtpagamento(result.getDate("dtpagamento"));
+                despesa.setDtpagesperado(result.getDate("dtpagesperado"));
+                despesa.setTipo(result.getString("tipo"));
+                despesa.setValor(result.getDouble("valor"));
+                ContaDaoImpl dao = new ContaDaoImpl();
+                despesa.setConta(dao.pesquisaPorId(result.getInt("idconta")));
+                despesas.add(despesa);
+            }
+
+        } catch (Exception e) {
+            System.out.println("erro ao pesquisar por ID conta");
+            System.out.println(e.getMessage());
+        }
+        return despesas;
+    }
     
 
 }

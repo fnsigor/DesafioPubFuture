@@ -284,8 +284,8 @@ public class ReceitasTela extends javax.swing.JFrame {
                             .addGroup(panelDadosLayout.createSequentialGroup()
                                 .addGap(26, 26, 26)
                                 .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9))
+                                    .addComponent(jLabel9)
+                                    .addComponent(btDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btVizualizar)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -334,13 +334,13 @@ public class ReceitasTela extends javax.swing.JFrame {
 
             receita.setDescricao(varDescricao.getText().trim());
             receita.setTipo((String) comboTipo.getSelectedItem());
-            receita.setValor(Double.parseDouble(varValor.getText().trim()));
+            receita.setValor(Double.parseDouble(varValor.getText().trim().replace(",", ".")));
 
             conta = daoConta.pesquisaPorId(Integer.parseInt(varIdConta.getText()));
             receita.setConta(conta);
             dao.registarReceita(receita);
 
-            JOptionPane.showMessageDialog(null, "Conta cadastrada com sucesso");
+            JOptionPane.showMessageDialog(null, "Receita registrada com sucesso");
             limparCampos();
             listar();
         }

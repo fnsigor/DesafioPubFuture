@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import pubfuture.bean.Conta;
 import pubfuture.regra_negocio.RegraNegocio;
 
@@ -28,7 +29,7 @@ public class ContaDaoImpl {
     private String sql;
     private Conta conta;
     
-    public void salvar(Conta conta) throws Exception {
+    public void salvar(Conta conta) {
 
         sql = "INSERT INTO CONTA(TIPO, INSTITUICAO, SALDO, NUMEROCONTA) VALUES (?, ?, ?, ?)";
         try {
@@ -99,7 +100,9 @@ public class ContaDaoImpl {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             ps.executeUpdate();
+             JOptionPane.showMessageDialog(null, "Conta excluída com sucesso");
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não é possível excluir essa conta. Existem receitas, despesas ou transferências registradas com ela");
             System.out.println("erro ao deletar por id");
             System.out.println(e.getMessage());
         }
@@ -146,7 +149,7 @@ public class ContaDaoImpl {
                 conta.setInstituicao(result.getString("instituicao"));
                 conta.setTipo(result.getString("tipo"));
                 conta.setSaldo(result.getDouble("saldo"));
-                conta.setNumeroconta(result.getString("numeroconta0"));
+                conta.setNumeroconta(result.getString("numeroconta"));
                 contas.add(conta);
             }
 
@@ -154,6 +157,34 @@ public class ContaDaoImpl {
             System.out.println("erro ao pesquisar por nome");
             System.out.println(e.getMessage());
         }
+        return contas;
+    }
+    
+    
+    public List<Conta> pesquisaIdLista(int idConta) {
+        sql = "SELECT * FROM CONTA WHERE IDCONTA=?";
+        List<Conta> contas = new ArrayList<>();
+        try {
+            connection = ConnectionFactory.abreConexao();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, idConta);
+            result = ps.executeQuery();
+
+            while (result.next()) {
+                conta = new Conta();
+                conta.setId(result.getInt("idconta"));
+                conta.setInstituicao(result.getString("instituicao"));
+                conta.setTipo(result.getString("tipo"));
+                conta.setSaldo(result.getDouble("saldo"));
+                conta.setNumeroconta(result.getString("numeroconta"));
+                contas.add(conta);
+            }
+
+        } catch (Exception e) {
+            System.out.println("erro ao listar");
+            System.out.println(e.getMessage());
+        }
+
         return contas;
     }
 

@@ -115,7 +115,7 @@ public class OperacoesTela extends javax.swing.JFrame {
     }//GEN-LAST:event_btDespesasActionPerformed
 
     private void btTransferenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTransferenciasActionPerformed
-        // TODO add your handling code here:
+     new TransferenciaTela().setVisible(true);
     }//GEN-LAST:event_btTransferenciasActionPerformed
 
     /**

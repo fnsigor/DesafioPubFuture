@@ -32,8 +32,8 @@ public class DespesasTela extends javax.swing.JFrame {
     DespesasDaoImpl dao = new DespesasDaoImpl();
     Conta conta = new Conta();
     ContaDaoImpl daoConta = new ContaDaoImpl();
-
     List<Despesas> despesas;
+    DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 
     public DespesasTela() {
         initComponents();
@@ -56,12 +56,9 @@ public class DespesasTela extends javax.swing.JFrame {
         varValor = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         comboTipo = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        btPesquisa = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         btCadastrar = new javax.swing.JButton();
         btAtualizar = new javax.swing.JButton();
         btDeletar = new javax.swing.JButton();
@@ -69,13 +66,20 @@ public class DespesasTela extends javax.swing.JFrame {
         varIdConta = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
         btVizualizar = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        btPesquisa = new javax.swing.JButton();
+        btPesquisaIdConta = new javax.swing.JButton();
+        varPesquisaIdConta = new javax.swing.JFormattedTextField();
+        jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Despesas");
+
+        panelDados.setAutoscrolls(true);
+        panelDados.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        panelDados.setPreferredSize(new java.awt.Dimension(750, 450));
 
         try {
             varDtPagamento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -89,30 +93,27 @@ public class DespesasTela extends javax.swing.JFrame {
             ex.printStackTrace();
         }
 
+        jLabel1.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
         jLabel1.setText("Data de pagamento:");
 
+        jLabel2.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
         jLabel2.setText("Data esperada do pagamento:");
 
-        jLabel3.setText("Descrição:");
-
+        comboTipo.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
         comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alimentação", "Educação", "Lazer", "Moradia", "Roupa", "Saúde", "Transporte", "Outros" }));
+        comboTipo.setToolTipText("");
+        comboTipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        jLabel4.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
         jLabel4.setText("Tipo:");
 
+        jLabel5.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
         jLabel5.setText("Valor:");
 
-        btPesquisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pubfuture/icons/procurar (2).png"))); // NOI18N
-        btPesquisa.setToolTipText("Pesquisar receita por ID");
-        btPesquisa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPesquisaActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setText("ID despesa:");
-
+        btCadastrar.setFont(new java.awt.Font("Ebrima", 0, 12)); // NOI18N
         btCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pubfuture/icons/adicionar.png"))); // NOI18N
-        btCadastrar.setToolTipText("Cadastrar Receita");
+        btCadastrar.setToolTipText("Registrar Receita");
+        btCadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btCadastrarActionPerformed(evt);
@@ -121,6 +122,7 @@ public class DespesasTela extends javax.swing.JFrame {
 
         btAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pubfuture/icons/vire-a-direita.png"))); // NOI18N
         btAtualizar.setToolTipText("Atualizar receita");
+        btAtualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btAtualizarActionPerformed(evt);
@@ -129,27 +131,155 @@ public class DespesasTela extends javax.swing.JFrame {
 
         btDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pubfuture/icons/lixo.png"))); // NOI18N
         btDeletar.setToolTipText("Excluir receita");
+        btDeletar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btDeletar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btDeletarActionPerformed(evt);
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
         jLabel7.setText("ID Conta:");
 
+        btVizualizar.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
         btVizualizar.setText("Vizualizar todas as despesas");
+        btVizualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btVizualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btVizualizarActionPerformed(evt);
             }
         });
 
-        jLabel8.setText("Atualizar");
+        jLabel10.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        jLabel10.setText("Id Despesa:");
 
-        jLabel9.setText("Excluir");
+        btPesquisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pubfuture/icons/procurar (2).png"))); // NOI18N
+        btPesquisa.setToolTipText("Pesquisar despesas por ID");
+        btPesquisa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel10.setText("Pesquisar despesa por ID");
+        btPesquisaIdConta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pubfuture/icons/procurar (2).png"))); // NOI18N
+        btPesquisaIdConta.setToolTipText("´Pesquisar despesas pelo ID da conta");
+        btPesquisaIdConta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btPesquisaIdConta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPesquisaIdContaActionPerformed(evt);
+            }
+        });
 
+        jLabel11.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        jLabel11.setText("Id Conta:");
+
+        javax.swing.GroupLayout panelDadosLayout = new javax.swing.GroupLayout(panelDados);
+        panelDados.setLayout(panelDadosLayout);
+        panelDadosLayout.setHorizontalGroup(
+            panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadosLayout.createSequentialGroup()
+                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDadosLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(varDtPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelDadosLayout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(varDtPagEsperado, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(75, 75, 75))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadosLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(varIdConta, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 297, Short.MAX_VALUE)
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10)
+                            .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(varPesquisaIdConta, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(varPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelDadosLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelDadosLayout.createSequentialGroup()
+                                .addComponent(btDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btVizualizar))
+                            .addGroup(panelDadosLayout.createSequentialGroup()
+                                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(panelDadosLayout.createSequentialGroup()
+                                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(panelDadosLayout.createSequentialGroup()
+                                                .addGap(140, 140, 140)
+                                                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(varValor, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(75, 75, 75)
+                                                .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel11)))
+                                .addGap(18, 18, 18)
+                                .addComponent(btPesquisaIdConta, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(42, 42, 42))
+        );
+        panelDadosLayout.setVerticalGroup(
+            panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDadosLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDadosLayout.createSequentialGroup()
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(varDtPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(varDtPagEsperado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(varPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(varIdConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btPesquisa))
+                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDadosLayout.createSequentialGroup()
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelDadosLayout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(panelDadosLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btPesquisaIdConta)
+                                    .addGroup(panelDadosLayout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(varPesquisaIdConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)))
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btAtualizar)
+                            .addComponent(btVizualizar)))
+                    .addGroup(panelDadosLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(varValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btCadastrar))
+                        .addGap(18, 18, 18)
+                        .addComponent(btDeletar)))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+
+        tabela.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -178,194 +308,93 @@ public class DespesasTela extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabela);
 
-        javax.swing.GroupLayout panelDadosLayout = new javax.swing.GroupLayout(panelDados);
-        panelDados.setLayout(panelDadosLayout);
-        panelDadosLayout.setHorizontalGroup(
-            panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDadosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDadosLayout.createSequentialGroup()
-                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(varDtPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
-                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                            .addComponent(varDtPagEsperado, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(214, 214, 214))
-                    .addGroup(panelDadosLayout.createSequentialGroup()
-                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(varValor, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(75, 75, 75)
-                        .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelDadosLayout.createSequentialGroup()
-                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(varIdConta, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDadosLayout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6)
-                            .addComponent(varPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadosLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDadosLayout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btVizualizar, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(34, 34, 34))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
-        panelDadosLayout.setVerticalGroup(
-            panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDadosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelDadosLayout.createSequentialGroup()
-                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelDadosLayout.createSequentialGroup()
-                                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(panelDadosLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(3, 3, 3)))
-                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelDadosLayout.createSequentialGroup()
-                                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelDadosLayout.createSequentialGroup()
-                                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(varDtPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(varDtPagEsperado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(varPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel10)))
-                                    .addComponent(btPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(39, 39, 39)
-                                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel7))))
-                            .addComponent(jLabel8))
-                        .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelDadosLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(varIdConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(44, 44, 44)
-                                .addComponent(jLabel5)
-                                .addGap(10, 10, 10)
-                                .addComponent(varValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelDadosLayout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addGroup(panelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btVizualizar)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelDados, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(panelDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelDados, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisaActionPerformed
-        pesquisaId(Integer.parseInt(varPesquisa.getText().trim()));
-    }//GEN-LAST:event_btPesquisaActionPerformed
-
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         if (!temErro()) {
-
-            DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-            String dataString = varDtPagamento.getText();
-
+          
+          //Esse trecho do código informa ao usuário que ele passou dos limites está com saldo negativo  
+          int idConta = Integer.parseInt(varIdConta.getText());
+          conta = daoConta.pesquisaPorId(idConta);
+          if(Double.parseDouble(varValor.getText())>conta.getSaldo()){
+            JOptionPane.showMessageDialog(null, "Cuidado! O saldo da conta com id = "+varIdConta.getText()+" está negativo!");
+          }
+          
+            //setando valores formatados das datas nas variaveis -- foi necessário usar um Try-Catch para isso
             try {
+                
+                String dataString = varDtPagamento.getText();
                 despesa.setDtpagamento(new java.sql.Date(fmt.parse(dataString).getTime()));
-            } catch (ParseException ex) {
-                Logger.getLogger(DespesasTela.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            dataString = varDtPagEsperado.getText();
-            try {
+                dataString = varDtPagEsperado.getText();
                 despesa.setDtpagesperado(new java.sql.Date(fmt.parse(dataString).getTime()));
+
+                //setando o restante dos valores nas variaveis
+                despesa.setTipo((String) comboTipo.getSelectedItem());
+                despesa.setValor(Double.parseDouble(varValor.getText().trim().replace(",", ".")));
+                conta = daoConta.pesquisaPorId(Integer.parseInt(varIdConta.getText()));
+                despesa.setConta(conta);
+
+                //salvando no banco
+                dao.registarDespesa(despesa);
+
+                //informando que o processo foi bem sucedido, limpando os campos e mostrando os novos registros no banco
+                JOptionPane.showMessageDialog(null, "Despesa registrada com sucesso");
+                limparCampos();
+                listar();
+
             } catch (ParseException ex) {
                 Logger.getLogger(DespesasTela.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            despesa.setTipo((String) comboTipo.getSelectedItem());
-            despesa.setValor(Double.parseDouble(varValor.getText().trim()));
-
-            conta = daoConta.pesquisaPorId(Integer.parseInt(varIdConta.getText()));
-            despesa.setConta(conta);
-            dao.registarDespesa(despesa);
-
-            JOptionPane.showMessageDialog(null, "Conta cadastrada com sucesso");
-            limparCampos();
-            listar();
         }
+        
 
     }//GEN-LAST:event_btCadastrarActionPerformed
 
+    
+    //Coloca dados da tabela nos campos das variáveis, para realizar a atualização
+    //Não foi possível incluir as datas nos campos das varíveis devido a formatação dos campos
+    //Sempre que for atualizar algo terá que informar as datas manualmente
     private void tabelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelaKeyReleased
         if (tabela.getSelectedRow() != -1) {
-
             varDtPagamento.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
             varDtPagEsperado.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
-            comboTipo.setSelectedItem(tabela.getValueAt(tabela.getSelectedRow(), 4).toString());
-            varIdConta.setText(tabela.getValueAt(tabela.getSelectedRow(), 5).toString());
-            varValor.setText(tabela.getValueAt(tabela.getSelectedRow(), 6).toString());
-
+            comboTipo.setSelectedItem(tabela.getValueAt(tabela.getSelectedRow(), 3).toString());
+            varValor.setText(tabela.getValueAt(tabela.getSelectedRow(), 5).toString());
         }
     }//GEN-LAST:event_tabelaKeyReleased
-
+  
+    
+   //Coloca dados da tabela nos campos das variáveis, para realizar a atualização
+   //Não foi possível incluir as datas nos campos das varíveis devido a formatação dos campos
+   //Sempre que for atualizar algo terá que informar as datas manualmente
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         if (tabela.getSelectedRow() != -1) {
-
             varDtPagamento.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
             varDtPagEsperado.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
-            comboTipo.setSelectedItem(tabela.getValueAt(tabela.getSelectedRow(), 4).toString());
-            varIdConta.setText(tabela.getValueAt(tabela.getSelectedRow(), 5).toString());
-            varValor.setText(tabela.getValueAt(tabela.getSelectedRow(), 6).toString());
-
+            comboTipo.setSelectedItem(tabela.getValueAt(tabela.getSelectedRow(), 3).toString());
+            varValor.setText(tabela.getValueAt(tabela.getSelectedRow(), 5).toString());
         }
     }//GEN-LAST:event_tabelaMouseClicked
 
+    
+    //Metodo para atualizar datas, tipo de despesa ou valor. 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         if (validarDtPagamento()) {
             JOptionPane.showMessageDialog(null, "Insira a data de pagamento");
@@ -377,17 +406,23 @@ public class DespesasTela extends javax.swing.JFrame {
         if (tabela.getSelectedRow() != 1) {
             try {
                 despesa = dao.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
-                DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+                conta = daoConta.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 4));
+                
                 String dataString = varDtPagamento.getText();
                 despesa.setDtpagamento(new java.sql.Date(fmt.parse(dataString).getTime()));
                 dataString = varDtPagEsperado.getText();
                 despesa.setDtpagesperado(new java.sql.Date(fmt.parse(dataString).getTime()));
                 despesa.setTipo((String) comboTipo.getSelectedItem());
-                despesa.setValor(Double.parseDouble(varValor.getText().trim()));
-                conta = daoConta.pesquisaPorId(Integer.parseInt(varIdConta.getText()));
-                despesa.setConta(conta);
+                despesa.setValor(Double.parseDouble(varValor.getText().replace(",", ".")));
+                
+                //alterando valor no saldo da conta após valor da despesa ser alterado
+                double contaSaldoAnterior = conta.getSaldo() + despesa.getValor();
+                double contaNovoSaldo = contaSaldoAnterior - Double.parseDouble(varValor.getText().replace(",", "."));
+                conta.setSaldo(contaNovoSaldo);
+                daoConta.alterar(conta);
+                
+                
                 dao.alterar(despesa);
-
                 JOptionPane.showMessageDialog(null, "Despesa atualizada com sucesso");
                 limparCampos();
                 listar();
@@ -398,8 +433,11 @@ public class DespesasTela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btAtualizarActionPerformed
 
+    
     private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
         if (tabela.getSelectedRow() != -1) {
+            
+            //pegando o id da despesa na tabela
             int id = (int) tabela.getValueAt(tabela.getSelectedRow(), 0);
 
             //alterando o saldo ao excluir despesa
@@ -410,7 +448,8 @@ public class DespesasTela extends javax.swing.JFrame {
             conta.setSaldo(novoSaldo);
             daoConta.alterar(conta);
             //alterando o saldo ao excluir despesa
-
+            
+            //informando que o processo foi bem sucedido, limpando os campos e mostrando os novos registros no banco
             dao.deletar(id);
             JOptionPane.showMessageDialog(null, "Conta deletada com sucesso");
             listar();
@@ -422,7 +461,11 @@ public class DespesasTela extends javax.swing.JFrame {
         listar();
     }//GEN-LAST:event_btVizualizarActionPerformed
 
-    //METODO PARA VALIDAÇÃO DE DADOS INFORMADOS
+    private void btPesquisaIdContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisaIdContaActionPerformed
+        pesquisaIdConta(Integer.parseInt(varPesquisaIdConta.getText()));
+    }//GEN-LAST:event_btPesquisaIdContaActionPerformed
+
+    //Método para validar dados informados antes de inserir um novo registro no banco
     private boolean temErro() {
 
         if (validarDtPagamento()) {
@@ -448,7 +491,7 @@ public class DespesasTela extends javax.swing.JFrame {
 
         return false;
     }
-    //METODO PARA VALIDAÇÃO DE DADOS INFORMADOS
+   
 
     //METODOS AUXILIARES
     private boolean validarDtPagamento() {
@@ -456,6 +499,7 @@ public class DespesasTela extends javax.swing.JFrame {
         String primeiroCaracter = dataPagamento.substring(0, 1);
         return primeiroCaracter.equals("/");
     }
+    
 
     private boolean validarDtPagEsperado() {
         String dtPagEsperado = varDtPagEsperado.getText().trim();
@@ -463,6 +507,7 @@ public class DespesasTela extends javax.swing.JFrame {
         return primeiroCaracter.equals("/");
     }
 
+    
     private boolean validarValor() {
         String valor = varValor.getText().trim();
         if (valor.equals("")) {
@@ -477,6 +522,7 @@ public class DespesasTela extends javax.swing.JFrame {
 
         return false;
     }
+    
 
     public void pesquisaId(int idReceita) {
 
@@ -484,6 +530,25 @@ public class DespesasTela extends javax.swing.JFrame {
         modelo.setNumRows(0);
 
         for (Despesas objetos : dao.pesquisaIdLista(idReceita)) {
+            modelo.addRow(new Object[]{
+                objetos.getIddespesas(),
+                objetos.getDtpagamento(),
+                objetos.getDtpagesperado(),
+                objetos.getTipo(),
+                objetos.getConta().getId(),
+                objetos.getValor()
+
+            });
+
+        }
+
+    }
+    public void pesquisaIdConta(int idConta) {
+
+        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        modelo.setNumRows(0);
+
+        for (Despesas objetos : dao.pesquisaIdContaLista(idConta)) {
             modelo.addRow(new Object[]{
                 objetos.getIddespesas(),
                 objetos.getDtpagamento(),
@@ -518,6 +583,7 @@ public class DespesasTela extends javax.swing.JFrame {
 
     }
 
+    
     private void limparCampos() {
         varDtPagamento.setText("");
         varDtPagEsperado.setText("");
@@ -525,7 +591,7 @@ public class DespesasTela extends javax.swing.JFrame {
         varValor.setText("");
     }
 
-    //METODOS AUXILIARES
+   
     /**
      * @param args the command line arguments
      */
@@ -567,18 +633,16 @@ public class DespesasTela extends javax.swing.JFrame {
     private javax.swing.JButton btCadastrar;
     private javax.swing.JButton btDeletar;
     private javax.swing.JButton btPesquisa;
+    private javax.swing.JButton btPesquisaIdConta;
     private javax.swing.JButton btVizualizar;
     private javax.swing.JComboBox<String> comboTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelDados;
     private javax.swing.JTable tabela;
@@ -586,6 +650,7 @@ public class DespesasTela extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField varDtPagamento;
     private javax.swing.JFormattedTextField varIdConta;
     private javax.swing.JFormattedTextField varPesquisa;
+    private javax.swing.JFormattedTextField varPesquisaIdConta;
     private javax.swing.JFormattedTextField varValor;
     // End of variables declaration//GEN-END:variables
 }
