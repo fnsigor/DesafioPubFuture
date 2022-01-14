@@ -35,39 +35,6 @@ public class OperacoesDaoImpl {
     private Transferencia transferencia;
     private ResultSet result;
 
-    public void transferencia(int idPagador, int idRecebedor, double valorTransferencia) {
-
-        sqlDevedor = "UPDATE CONTA SET SALDO=? WHERE IDCONTA=?";
-        sqlRecebedor = "UPDATE CONTA SET SALDO=? WHERE IDCONTA=?";
-
-        try {
-
-            contaDao = new ContaDaoImpl();
-            connection = ConnectionFactory.abreConexao();
-            psDevedor = connection.prepareStatement(sqlDevedor);
-            psRecebedor = connection.prepareStatement(sqlRecebedor);
-
-            Conta pagador = contaDao.pesquisaPorId(idPagador);
-            Conta recebedor = contaDao.pesquisaPorId(idRecebedor);
-
-            double novoSaldoPagador = pagador.getSaldo() - valorTransferencia;
-            double novoSaldoRecebedor = recebedor.getSaldo() + valorTransferencia;
-
-            psDevedor.setDouble(1, novoSaldoPagador);
-            psDevedor.setInt(2, idPagador);
-            psRecebedor.setDouble(1, novoSaldoRecebedor);
-            psRecebedor.setInt(2, idRecebedor);
-
-            psDevedor.executeUpdate();
-            psRecebedor.executeUpdate();
-
-        } catch (Exception e) {
-
-            System.out.println(e.getMessage());
-        }
-
-    }
-
     public void transferenciaHistorico(Transferencia transferencia) {
 
         //comandos sql que serão utilizados no método
@@ -151,13 +118,13 @@ public class OperacoesDaoImpl {
 
     }
 
-    public List<Transferencia> pesquisaIdLista(int idTransferencia) {
+    public List<Transferencia> pesquisaIdPagador(int idPagador) {
         SqlTransferencia = "SELECT * FROM TRANSFERENCIAS WHERE IDPAGADOR=?";
         List<Transferencia> transferenciasdb = new ArrayList<>();
         try {
             connection = ConnectionFactory.abreConexao();
             psTransferencia = connection.prepareStatement(SqlTransferencia);
-            psTransferencia.setInt(1, idTransferencia);
+            psTransferencia.setInt(1, idPagador);
             result = psTransferencia.executeQuery();
 
             while (result.next()) {
@@ -177,5 +144,7 @@ public class OperacoesDaoImpl {
         }
         return transferenciasdb;
     }
+    
+    
 
 }

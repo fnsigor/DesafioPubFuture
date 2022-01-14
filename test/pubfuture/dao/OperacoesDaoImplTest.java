@@ -29,16 +29,7 @@ public class OperacoesDaoImplTest {
         //operacao.transferencia(1, 2, 20.0);
     }
 
-    //@Test
-    public void testTransferencia() {
-        System.out.println("transferencia");
-        int idPagador = 0;
-        int idRecebedor = 0;
-        double valorTransferencia = 0.0;
-        OperacoesDaoImpl instance = new OperacoesDaoImpl();
-        instance.transferencia(idPagador, idRecebedor, valorTransferencia);
-        //fail("The test case is a prototype.");
-    }
+    
 
     @Test
     public void testTransferenciaHistorico() {

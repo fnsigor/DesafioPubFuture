@@ -61,7 +61,7 @@ public class ContaTela extends javax.swing.JFrame {
         menuOperações = new javax.swing.JMenu();
         menuTransferencia = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tela Principal - Contas");
 
         comboTipo.setFont(new java.awt.Font("Ebrima", 0, 12)); // NOI18N
@@ -350,6 +350,24 @@ public class ContaTela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btCadastrarActionPerformed
 
+    
+    //metodo para validar dados antes de registrarno banco
+    public boolean temErro() {
+        
+        if (campoMenorQue3(varInstituicao.getText())) {
+            JOptionPane.showMessageDialog(null, "Insira uma instituição válida");
+            return true;
+        }
+        
+        if (validarSaldo()) {
+            JOptionPane.showMessageDialog(null, "Insira um saldo válido");
+            return true;
+        }
+        return false;
+    }
+    
+    
+    //botao para pesquisar conta pela instituicao
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
         pesquisaInstituicao(varPesquisa.getText().trim());
     }//GEN-LAST:event_btPesquisarActionPerformed
@@ -396,43 +414,27 @@ public class ContaTela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btDeletarActionPerformed
 
-    
+     //botao para pesquisar conta pelo id
     private void btPesquisaIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisaIdActionPerformed
         pesquisaId(Integer.parseInt(varIdPesquisa.getText().trim()));
     }//GEN-LAST:event_btPesquisaIdActionPerformed
 
     
+    
+    //menu
     private void menuTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTransferenciaActionPerformed
         new TransferenciaTela().setVisible(true);
     }//GEN-LAST:event_menuTransferenciaActionPerformed
-
-    
     private void menuDespesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDespesasActionPerformed
         new DespesasTela().setVisible(true);
     }//GEN-LAST:event_menuDespesasActionPerformed
-
-    
     private void menuReceitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuReceitasActionPerformed
     new ReceitasTela().setVisible(true);
     }//GEN-LAST:event_menuReceitasActionPerformed
+    //menu
     
-    
-    public boolean temErro() {
-        
-        if (campoMenorQue3(varInstituicao.getText())) {
-            JOptionPane.showMessageDialog(null, "Insira uma instituição válida");
-            return true;
-        }
-        
-        if (validarSaldo()) {
-            JOptionPane.showMessageDialog(null, "Insira um saldo válido");
-            return true;
-        }
-        
-        return false;
-    }
-    
-    
+
+    //METODOS AUXILIARES
     private boolean validarSaldo() {
         String saldo = varSaldo.getText().trim();
         if (saldo.equals("")) {
@@ -444,16 +446,16 @@ public class ContaTela extends javax.swing.JFrame {
                 return true;
             }
         }
-        
         return false;
     }
-
-    //METODOS AUXILIARES
+    
     private boolean campoMenorQue3(String campoValor) {
         return campoValor.length() < 3;
         
     }
     
+    
+    //metodo para pesquisar conta pela instituicao
     public void pesquisaInstituicao(String instituicao) {
         
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
@@ -467,11 +469,10 @@ public class ContaTela extends javax.swing.JFrame {
                 objetos.getSaldo(),
                 objetos.getNumeroconta()
             });
-            
         }
-        
     }
     
+    //metodo para pesquisar conta pelo id da conta
     public void pesquisaId(int idConta) {
         
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
@@ -485,9 +486,7 @@ public class ContaTela extends javax.swing.JFrame {
                 objetos.getSaldo(),
                 objetos.getNumeroconta()
             });
-            
         }
-        
     }
 
     /**

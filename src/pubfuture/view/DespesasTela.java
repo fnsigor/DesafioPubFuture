@@ -73,6 +73,13 @@ public class DespesasTela extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
+        jMenuBar3 = new javax.swing.JMenuBar();
+        menuFinancas2 = new javax.swing.JMenu();
+        menuReceitas2 = new javax.swing.JMenuItem();
+        menuOperações = new javax.swing.JMenu();
+        menuTransferencia = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Despesas");
@@ -313,6 +320,50 @@ public class DespesasTela extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabela);
 
+        menuFinancas2.setText("Finanças");
+        menuFinancas2.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+
+        menuReceitas2.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        menuReceitas2.setText("Receitas");
+        menuReceitas2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuReceitas2ActionPerformed(evt);
+            }
+        });
+        menuFinancas2.add(menuReceitas2);
+
+        jMenuBar3.add(menuFinancas2);
+
+        menuOperações.setText("Operações");
+        menuOperações.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+
+        menuTransferencia.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        menuTransferencia.setText("Transferência");
+        menuTransferencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuTransferenciaActionPerformed(evt);
+            }
+        });
+        menuOperações.add(menuTransferencia);
+
+        jMenuBar3.add(menuOperações);
+
+        jMenu1.setText("Usuário");
+        jMenu1.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+
+        jMenuItem1.setFont(new java.awt.Font("Ebrima", 1, 12)); // NOI18N
+        jMenuItem1.setText("Contas");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar3.add(jMenu1);
+
+        setJMenuBar(jMenuBar3);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -325,7 +376,7 @@ public class DespesasTela extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelDados, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
         );
 
         pack();
@@ -342,9 +393,8 @@ public class DespesasTela extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Cuidado! O saldo da conta com id = " + varIdConta.getText() + " está negativo!");
             }
 
-            //setando valores formatados das datas nas variaveis -- foi necessário usar um Try-Catch para isso
             try {
-
+                //setando valores formatados das datas nas variaveis -- foi necessário usar um Try-Catch para isso
                 String dataString = varDtPagamento.getText();
                 despesa.setDtpagamento(new java.sql.Date(fmt.parse(dataString).getTime()));
                 dataString = varDtPagEsperado.getText();
@@ -368,10 +418,9 @@ public class DespesasTela extends javax.swing.JFrame {
                 Logger.getLogger(DespesasTela.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-
     }//GEN-LAST:event_btCadastrarActionPerformed
 
+    
     //Coloca dados da tabela nos campos das variáveis, para realizar a atualização
     //Não foi possível incluir as datas nos campos das varíveis devido a formatação dos campos
     //Sempre que for atualizar algo terá que informar as datas manualmente
@@ -384,6 +433,7 @@ public class DespesasTela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabelaKeyReleased
 
+    
     //Coloca dados da tabela nos campos das variáveis, para realizar a atualização
     //Não foi possível incluir as datas nos campos das varíveis devido a formatação dos campos
     //Sempre que for atualizar algo terá que informar as datas manualmente
@@ -396,8 +446,10 @@ public class DespesasTela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabelaMouseClicked
 
-    //Metodo para atualizar datas, tipo de despesa ou valor. 
+    
+    //Metodo para atualizar datas, tipo de despesa ou valor. É possível alterar tudo menos a conta a qual a receita pertence
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
+      
         if (validarDtPagamento()) {
             JOptionPane.showMessageDialog(null, "Insira a data de pagamento");
         }
@@ -415,14 +467,15 @@ public class DespesasTela extends javax.swing.JFrame {
                 dataString = varDtPagEsperado.getText();
                 despesa.setDtpagesperado(new java.sql.Date(fmt.parse(dataString).getTime()));
                 despesa.setTipo((String) comboTipo.getSelectedItem());
-                despesa.setValor(Double.parseDouble(varValor.getText().replace(",", ".")));
 
                 //alterando valor no saldo da conta após valor da despesa ser alterado
                 double contaSaldoAnterior = conta.getSaldo() + despesa.getValor();
                 double contaNovoSaldo = contaSaldoAnterior - Double.parseDouble(varValor.getText().replace(",", "."));
                 conta.setSaldo(contaNovoSaldo);
                 daoConta.alterar(conta);
-
+                //setando o valor novo nessa linha para possibilitar a atualização de saldo
+                despesa.setValor(Double.parseDouble(varValor.getText().replace(",", ".")));
+                
                 dao.alterar(despesa);
                 JOptionPane.showMessageDialog(null, "Despesa atualizada com sucesso");
                 limparCampos();
@@ -448,7 +501,6 @@ public class DespesasTela extends javax.swing.JFrame {
             conta = daoConta.pesquisaPorId(idConta);
             conta.setSaldo(novoSaldo);
             daoConta.alterar(conta);
-            //alterando o saldo ao excluir despesa
 
             //informando que o processo foi bem sucedido, limpando os campos e mostrando os novos registros no banco
             dao.deletar(id);
@@ -458,18 +510,38 @@ public class DespesasTela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btDeletarActionPerformed
 
+    
+    //botao para listar todas as receitas no banco
     private void btVizualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVizualizarActionPerformed
         listar();
     }//GEN-LAST:event_btVizualizarActionPerformed
 
+    
+    //botao para pesquisar despesa pelo id da conta
     private void btPesquisaIdContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisaIdContaActionPerformed
         pesquisaIdConta(Integer.parseInt(varPesquisaIdConta.getText()));
     }//GEN-LAST:event_btPesquisaIdContaActionPerformed
 
+    
+    //botao para pesquisar despesa pelo id da despesa
     private void btPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisaActionPerformed
         pesquisaId(Integer.parseInt(varPesquisa.getText()));
     }//GEN-LAST:event_btPesquisaActionPerformed
 
+    
+    //menu
+    private void menuReceitas2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuReceitas2ActionPerformed
+        new ReceitasTela().setVisible(true);
+    }//GEN-LAST:event_menuReceitas2ActionPerformed
+    private void menuTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTransferenciaActionPerformed
+        new TransferenciaTela().setVisible(true);
+    }//GEN-LAST:event_menuTransferenciaActionPerformed
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    new ContaTela().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    //menu
+    
+    
     //Método para validar dados informados antes de inserir um novo registro no banco
     private boolean temErro() {
 
@@ -481,7 +553,6 @@ public class DespesasTela extends javax.swing.JFrame {
         if (validarDtPagEsperado()) {
             JOptionPane.showMessageDialog(null, "Insira uma data válida");
             return true;
-
         }
 
         if (validarValor()) {
@@ -493,10 +564,10 @@ public class DespesasTela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Insira uma conta válida");
             return true;
         }
-
         return false;
     }
 
+    
     //METODOS AUXILIARES
     private boolean validarDtPagamento() {
         String dataPagamento = varDtPagamento.getText().trim();
@@ -504,12 +575,14 @@ public class DespesasTela extends javax.swing.JFrame {
         return primeiroCaracter.equals("/");
     }
 
+    
     private boolean validarDtPagEsperado() {
         String dtPagEsperado = varDtPagEsperado.getText().trim();
         String primeiroCaracter = dtPagEsperado.substring(0, 1);
         return primeiroCaracter.equals("/");
     }
 
+    
     private boolean validarValor() {
         String valor = varValor.getText().trim();
         if (valor.equals("")) {
@@ -521,11 +594,11 @@ public class DespesasTela extends javax.swing.JFrame {
                 return true;
             }
         }
-
         return false;
     }
 
-    public void pesquisaId(int idDespesa) {
+    //metodo para pesquisar despesa pelo id da despesa
+    private void pesquisaId(int idDespesa) {
 
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
@@ -538,13 +611,12 @@ public class DespesasTela extends javax.swing.JFrame {
                 objetos.getTipo(),
                 objetos.getConta().getId(),
                 objetos.getValor()
-
             });
-
         }
     }
 
-    public void pesquisaIdConta(int idConta) {
+    //metodo para pesquisar despesa pelo id da conta
+    private void pesquisaIdConta(int idConta) {
 
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
@@ -559,12 +631,11 @@ public class DespesasTela extends javax.swing.JFrame {
                 objetos.getValor()
 
             });
-
         }
-
     }
 
-    public void listar() {
+    //metodo para listar todos os registros no banco
+    private void listar() {
 
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
@@ -577,13 +648,11 @@ public class DespesasTela extends javax.swing.JFrame {
                 objetos.getTipo(),
                 objetos.getConta().getId(),
                 objetos.getValor()
-
             });
-
         }
-
     }
 
+    
     private void limparCampos() {
         varDtPagamento.setText("");
         varDtPagEsperado.setText("");
@@ -591,6 +660,7 @@ public class DespesasTela extends javax.swing.JFrame {
         varValor.setText("");
     }
 
+    
     /**
      * @param args the command line arguments
      */
@@ -642,7 +712,20 @@ public class DespesasTela extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuBar jMenuBar3;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenu menuFinancas;
+    private javax.swing.JMenu menuFinancas1;
+    private javax.swing.JMenu menuFinancas2;
+    private javax.swing.JMenu menuOperações;
+    private javax.swing.JMenuItem menuReceitas;
+    private javax.swing.JMenuItem menuReceitas1;
+    private javax.swing.JMenuItem menuReceitas2;
+    private javax.swing.JMenuItem menuTransferencia;
     private javax.swing.JPanel panelDados;
     private javax.swing.JTable tabela;
     private javax.swing.JFormattedTextField varDtPagEsperado;
