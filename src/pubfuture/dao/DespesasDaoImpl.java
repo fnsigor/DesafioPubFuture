@@ -31,9 +31,13 @@ public class DespesasDaoImpl {
     private Conta conta;
     private ContaDaoImpl contaDao;
 
+    
+    //metodo que registra a despesa no banco e atualiza o saldo
     public void registarDespesa(Despesas despesa) {
+        
         sqlDespesa = "INSERT INTO DESPESAS(VALOR, DTPAGAMENTO, DTPAGESPERADO, TIPO, IDCONTA) VALUES (?, ?, ?, ?, ?)";
         sqlConta = "UPDATE CONTA SET SALDO=? WHERE IDCONTA=?";
+        
         try {
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sqlDespesa, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -58,13 +62,15 @@ public class DespesasDaoImpl {
             System.out.println("erro ao salvar receita");
             System.out.println(e.getMessage());
         }
-
     }
 
+    
+    //metodo que pesquisa despesa pela id
     public Despesas pesquisaPorId(Integer IdDespesa) {
+        
         sqlDespesa = "SELECT * FROM DESPESAS WHERE IDDESPESA=?";
+        
         try {
-
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sqlDespesa);
             ps.setInt(1, IdDespesa);
@@ -79,8 +85,8 @@ public class DespesasDaoImpl {
                 despesa.setTipo(result.getString("tipo"));
                 contaDao = new ContaDaoImpl();
                 despesa.setConta(contaDao.pesquisaPorId(result.getInt("idconta")));
-
             }
+            
         } catch (Exception e) {
             System.out.println("erro ao pesquisar por id");
             System.out.println(e.getMessage());
@@ -88,6 +94,8 @@ public class DespesasDaoImpl {
         return despesa;
     }
 
+    
+    //metodo que altera a despesa
     public void alterar(Despesas x) {
 
         sqlDespesa = "UPDATE DESPESAS SET VALOR=?, DTPAGAMENTO=?, DTPAGESPERADO=?, TIPO=? WHERE IDDESPESA= ?";
@@ -101,19 +109,21 @@ public class DespesasDaoImpl {
             ps.setString(4, despesa.getTipo());
             ps.setInt(5, despesa.getIddespesas());
             ps.executeUpdate();
+            
         } catch (Exception e) {
             System.out.println("erro ao alterar");
             System.out.println(e.getMessage());
 
         }
     }
-
+    
+    
+    //metodo que deleta despesa no banco pela id
     public void deletar(int id) {
 
         sqlDespesa = "DELETE FROM DESPESAS WHERE IDDESPESA= ?";
 
         try {
-
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sqlDespesa);
             ps.setInt(1, id);
@@ -127,9 +137,9 @@ public class DespesasDaoImpl {
     }
     
     
-    
-    
+    //metodo que lista todos os registros no banco    
     public List<Despesas> listar() {
+        
         sqlDespesa = "SELECT * FROM DESPESAS";
         List<Despesas> despesadb = new ArrayList<>();
 
@@ -148,19 +158,19 @@ public class DespesasDaoImpl {
                 contaDao = new ContaDaoImpl();
                 despesa.setConta(contaDao.pesquisaPorId(result.getInt("idconta")));
                 despesadb.add(despesa);
-
             }
 
         } catch (Exception e) {
             System.out.println("erro ao listar");
             System.out.println(e.getMessage());
         }
-
         return despesadb;
-
     }
     
+    
+    //metodo que pesquisa registro no banco pelo id da despesa e retorna lista 
     public List<Despesas> pesquisaIdLista(int idDespesa) {
+        
         sqlDespesa = "SELECT * FROM DESPESAS WHERE IDDESPESA= ? ";
         List<Despesas> despesas = new ArrayList<>();
 
@@ -188,7 +198,11 @@ public class DespesasDaoImpl {
         }
         return despesas;
     }
+    
+    
+    //metodo que pesquisa registro de despesa no banco com base no id da conta a qual o registro pertence
     public List<Despesas> pesquisaIdContaLista(int idConta) {
+        
         sqlDespesa = "SELECT * FROM DESPESAS WHERE IDCONTA= ? ";
         List<Despesas> despesas = new ArrayList<>();
 
@@ -217,5 +231,4 @@ public class DespesasDaoImpl {
         return despesas;
     }
     
-
 }

@@ -13,7 +13,12 @@ import java.sql.DriverManager;
  * @author Igor Fernandes
  */
 public class ConnectionFactory {
-
+  
+    //ATENÇÃO: CASO A PORTA QUE SEU SERVIDOR MYSQL USE NÃO SEJA A 3306, ALTERE PARA A PORTA CORRETA NO MÉTODO ABAIXO
+    
+    //Usuário: root / Senha: admin
+    
+    //CASO O USUÁRIO TENHA NOME DIFERENTE DE root E/OU A SENHA USADA NO SERVIDOR SEJA DIFENRENTE DE admin, ALTERE PARA OS DADOS CORRETOS NO METODO ABAIXO
     public static Connection abreConexao() throws Exception {
 
         Class.forName("com.mysql.cj.jdbc.Driver");

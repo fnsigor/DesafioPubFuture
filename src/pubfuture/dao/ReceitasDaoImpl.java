@@ -31,10 +31,12 @@ public class ReceitasDaoImpl {
     private ContaDaoImpl contaDao;
     private Receitas receita;
 
-    //TENTAR TIRAR DO SALDO O VALOR DA RECEITA AO DELETAR RECEITA
+    //metodo que registra despesa no banco e atualiza sald do pagador
     public void registarReceita(Receitas receita) {
+        
         sqlReceita = "INSERT INTO RECEITAS(VALOR, DTRECEBIMENTO, DTRECESPERADO, DESCRICAO, TIPO, IDCONTA) VALUES (?, ?, ?, ?, ?, ?)";
         sqlConta = "UPDATE CONTA SET SALDO=? WHERE IDCONTA=?";
+        
         try {
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sqlReceita, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -44,6 +46,7 @@ public class ReceitasDaoImpl {
             ps.setString(4, receita.getDescricao());
             ps.setString(5, receita.getTipo());
             ps.setObject(6, receita.getConta().getId());
+            
             double novoSaldo = receita.getValor() + receita.getConta().getSaldo();
             psSaldo = connection.prepareStatement(sqlConta);
             psSaldo.setDouble(1, novoSaldo);
@@ -59,13 +62,15 @@ public class ReceitasDaoImpl {
             System.out.println("erro ao salvar receita");
             System.out.println(e.getMessage());
         }
-
     }
 
+    
+    //metodo que pesquisa receita no banco pela id da receita
     public Receitas pesquisaPorId(Integer idReceita) {
+        
         sqlReceita = "SELECT * FROM RECEITAS WHERE IDRECEITA=?";
+        
         try {
-
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sqlReceita);
             ps.setInt(1, idReceita);
@@ -81,8 +86,8 @@ public class ReceitasDaoImpl {
                 receita.setTipo(result.getString("tipo"));
                 contaDao = new ContaDaoImpl();
                 receita.setConta(contaDao.pesquisaPorId(result.getInt("idconta")));
-
             }
+            
         } catch (Exception e) {
             System.out.println("erro ao pesquisar por id");
             System.out.println(e.getMessage());
@@ -90,8 +95,9 @@ public class ReceitasDaoImpl {
         return receita;
     }
     
-    
+    //metodo que também pesquisa receita no banco pela id da receita mas retorna lista
     public List<Receitas> pesquisaIdLista(int idReceita) {
+        
         sqlReceita = "SELECT * FROM RECEITAS WHERE IDRECEITA= ? ";
         List<Receitas> receitas = new ArrayList<>();
 
@@ -121,7 +127,7 @@ public class ReceitasDaoImpl {
         return receitas;
     }
     
-
+    //metodo que altera registros no banco
     public void alterar(Receitas x) {
 
         sqlReceita = "UPDATE RECEITAS SET VALOR=?, DTRECEBIMENTO=?, DTRECESPERADO=?, DESCRICAO=?, TIPO=? WHERE IDRECEITA= ?";
@@ -136,31 +142,35 @@ public class ReceitasDaoImpl {
             ps.setString(5, receita.getTipo());
             ps.setInt(6, receita.getIdreceitas());
             ps.executeUpdate();
+            
         } catch (Exception e) {
             System.out.println("erro ao alterar");
             System.out.println(e.getMessage());
-
         }
     }
-
+ 
+    
+    //metodo que deleta regitro no banco
     public void deletar(int id) {
 
         sqlReceita = "DELETE FROM RECEITAS WHERE IDRECEITA= ?";
 
         try {
-
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sqlReceita);
             ps.setInt(1, id);
             ps.executeUpdate();
+            
         } catch (Exception e) {
             System.out.println("erro ao deletar por id");
             System.out.println(e.getMessage());
         }
-
     }
 
+    
+    //metodo que lista todos os registros no banco
     public List<Receitas> listar() {
+        
         sqlReceita = "SELECT * FROM RECEITAS";
         List<Receitas> receitasdb = new ArrayList<>();
 
@@ -180,21 +190,19 @@ public class ReceitasDaoImpl {
                 contaDao = new ContaDaoImpl();
                 receita.setConta(contaDao.pesquisaPorId(result.getInt("idconta")));
                 receitasdb.add(receita);
-
             }
 
         } catch (Exception e) {
             System.out.println("erro ao listar");
             System.out.println(e.getMessage());
         }
-
         return receitasdb;
-
     }
 
 
-    
+       //metodo que pesquisa registros de receitas no banco pelo id da conta
        public List<Receitas> pesquisaIdContaLista(int idConta) {
+           
         sqlReceita = "SELECT * FROM RECEITAS WHERE IDCONTA= ? ";
         List<Receitas> receitas = new ArrayList<>();
 
@@ -223,7 +231,6 @@ public class ReceitasDaoImpl {
         }
         return receitas;
     }
-    
     
 }
 

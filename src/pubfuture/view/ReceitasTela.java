@@ -24,6 +24,9 @@ import sun.font.TrueTypeFont;
  *
  * @author Igor Fernandes
  */
+
+//TENTAR EXIBIR DESCRIÇÃO COMPLETA AO PASSAR O MOUSE POR CIMA DO REGISTRO
+
 public class ReceitasTela extends javax.swing.JFrame {
 
     Receitas receita = new Receitas();

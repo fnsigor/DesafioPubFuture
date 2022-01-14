@@ -35,6 +35,8 @@ public class OperacoesDaoImpl {
     private Transferencia transferencia;
     private ResultSet result;
 
+    
+    //metodo que registra transferencia e atualiza valores dos saldos das contas envolvidas
     public void transferenciaHistorico(Transferencia transferencia) {
 
         //comandos sql que serão utilizados no método
@@ -81,17 +83,19 @@ public class OperacoesDaoImpl {
             psRecebedor.executeUpdate();
 
         } catch (Exception e) {
-
             JOptionPane.showMessageDialog(null, "Erro ao executar transferência");
             System.out.println("Erro ao executar transferência");
             System.out.println(e.getMessage());
         }
-
     }
-
+    
+    
+    //metodo que lista todas as transferencias no banco de dados
     public List<Transferencia> listar() {
+        
         SqlTransferencia = "SELECT IDTRANSFERENCIA, DTTRANSFERENCIA, VALOR, IDPAGADOR, IDRECEBEDOR FROM TRANSFERENCIAS";
         List<Transferencia> transferenciasdb = new ArrayList<>();
+        
         try {
             connection = ConnectionFactory.abreConexao();
             psTransferencia = connection.prepareStatement(SqlTransferencia);
@@ -106,21 +110,22 @@ public class OperacoesDaoImpl {
                 transferencia.setPagador(contaDao.pesquisaPorId(result.getInt("idpagador")));
                 transferencia.setRecebedor(contaDao.pesquisaPorId(result.getInt("idrecebedor")));
                 transferenciasdb.add(transferencia);
-
             }
 
         } catch (Exception e) {
             System.out.println("erro ao listar");
             System.out.println(e.getMessage());
         }
-
         return transferenciasdb;
-
     }
 
+    
+    //metodo que pesquisa transferenica no banco pela id do pagador
     public List<Transferencia> pesquisaIdPagador(int idPagador) {
+        
         SqlTransferencia = "SELECT * FROM TRANSFERENCIAS WHERE IDPAGADOR=?";
         List<Transferencia> transferenciasdb = new ArrayList<>();
+        
         try {
             connection = ConnectionFactory.abreConexao();
             psTransferencia = connection.prepareStatement(SqlTransferencia);
@@ -145,6 +150,4 @@ public class OperacoesDaoImpl {
         return transferenciasdb;
     }
     
-    
-
 }

@@ -12,6 +12,7 @@ import java.util.Date;
  * @author Igor Fernandes
  */
 public class Receitas {
+
     private Integer idreceitas;
     private Double valor;
     private Date dtrecebimento;
@@ -76,16 +77,4 @@ public class Receitas {
         this.idreceitas = idreceitas;
     }
 
-    public Receitas(Double valor, Date dtpagamento, Date dtrecesperado, String descricao, String tipo, Conta conta) {
-        this.valor = valor;
-        this.dtrecebimento = dtpagamento;
-        this.dtrecesperado = dtrecesperado;
-        this.descricao = descricao;
-        this.tipo = tipo;
-        this.conta = conta;
-    }
-    
-    public Receitas(){
-    }
-    
 }
