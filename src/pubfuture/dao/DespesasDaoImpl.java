@@ -61,13 +61,13 @@ public class DespesasDaoImpl {
 
     }
 
-    public Despesas pesquisaPorId(Integer idReceita) {
+    public Despesas pesquisaPorId(Integer IdDespesa) {
         sqlDespesa = "SELECT * FROM DESPESAS WHERE IDDESPESA=?";
         try {
 
             connection = ConnectionFactory.abreConexao();
             ps = connection.prepareStatement(sqlDespesa);
-            ps.setInt(1, idReceita);
+            ps.setInt(1, IdDespesa);
             result = ps.executeQuery();
 
             if (result.next()) {
@@ -161,7 +161,7 @@ public class DespesasDaoImpl {
     }
     
     public List<Despesas> pesquisaIdLista(int idDespesa) {
-        sqlDespesa = "SELECT * FROM RECEITAS WHERE IDRECEITA= ? ";
+        sqlDespesa = "SELECT * FROM DESPESAS WHERE IDDESPESA= ? ";
         List<Despesas> despesas = new ArrayList<>();
 
         try {

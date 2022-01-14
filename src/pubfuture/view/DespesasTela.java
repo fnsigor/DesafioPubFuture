@@ -156,6 +156,11 @@ public class DespesasTela extends javax.swing.JFrame {
         btPesquisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pubfuture/icons/procurar (2).png"))); // NOI18N
         btPesquisa.setToolTipText("Pesquisar despesas por ID");
         btPesquisa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPesquisaActionPerformed(evt);
+            }
+        });
 
         btPesquisaIdConta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pubfuture/icons/procurar (2).png"))); // NOI18N
         btPesquisaIdConta.setToolTipText("´Pesquisar despesas pelo ID da conta");
@@ -329,17 +334,17 @@ public class DespesasTela extends javax.swing.JFrame {
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         if (!temErro()) {
-          
-          //Esse trecho do código informa ao usuário que ele passou dos limites está com saldo negativo  
-          int idConta = Integer.parseInt(varIdConta.getText());
-          conta = daoConta.pesquisaPorId(idConta);
-          if(Double.parseDouble(varValor.getText())>conta.getSaldo()){
-            JOptionPane.showMessageDialog(null, "Cuidado! O saldo da conta com id = "+varIdConta.getText()+" está negativo!");
-          }
-          
+
+            //Esse trecho do código informa ao usuário que ele passou dos limites está com saldo negativo  
+            int idConta = Integer.parseInt(varIdConta.getText());
+            conta = daoConta.pesquisaPorId(idConta);
+            if (Double.parseDouble(varValor.getText()) > conta.getSaldo()) {
+                JOptionPane.showMessageDialog(null, "Cuidado! O saldo da conta com id = " + varIdConta.getText() + " está negativo!");
+            }
+
             //setando valores formatados das datas nas variaveis -- foi necessário usar um Try-Catch para isso
             try {
-                
+
                 String dataString = varDtPagamento.getText();
                 despesa.setDtpagamento(new java.sql.Date(fmt.parse(dataString).getTime()));
                 dataString = varDtPagEsperado.getText();
@@ -363,11 +368,10 @@ public class DespesasTela extends javax.swing.JFrame {
                 Logger.getLogger(DespesasTela.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
 
     }//GEN-LAST:event_btCadastrarActionPerformed
 
-    
     //Coloca dados da tabela nos campos das variáveis, para realizar a atualização
     //Não foi possível incluir as datas nos campos das varíveis devido a formatação dos campos
     //Sempre que for atualizar algo terá que informar as datas manualmente
@@ -379,11 +383,10 @@ public class DespesasTela extends javax.swing.JFrame {
             varValor.setText(tabela.getValueAt(tabela.getSelectedRow(), 5).toString());
         }
     }//GEN-LAST:event_tabelaKeyReleased
-  
-    
-   //Coloca dados da tabela nos campos das variáveis, para realizar a atualização
-   //Não foi possível incluir as datas nos campos das varíveis devido a formatação dos campos
-   //Sempre que for atualizar algo terá que informar as datas manualmente
+
+    //Coloca dados da tabela nos campos das variáveis, para realizar a atualização
+    //Não foi possível incluir as datas nos campos das varíveis devido a formatação dos campos
+    //Sempre que for atualizar algo terá que informar as datas manualmente
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         if (tabela.getSelectedRow() != -1) {
             varDtPagamento.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
@@ -393,7 +396,6 @@ public class DespesasTela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabelaMouseClicked
 
-    
     //Metodo para atualizar datas, tipo de despesa ou valor. 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         if (validarDtPagamento()) {
@@ -407,21 +409,20 @@ public class DespesasTela extends javax.swing.JFrame {
             try {
                 despesa = dao.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
                 conta = daoConta.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 4));
-                
+
                 String dataString = varDtPagamento.getText();
                 despesa.setDtpagamento(new java.sql.Date(fmt.parse(dataString).getTime()));
                 dataString = varDtPagEsperado.getText();
                 despesa.setDtpagesperado(new java.sql.Date(fmt.parse(dataString).getTime()));
                 despesa.setTipo((String) comboTipo.getSelectedItem());
                 despesa.setValor(Double.parseDouble(varValor.getText().replace(",", ".")));
-                
+
                 //alterando valor no saldo da conta após valor da despesa ser alterado
                 double contaSaldoAnterior = conta.getSaldo() + despesa.getValor();
                 double contaNovoSaldo = contaSaldoAnterior - Double.parseDouble(varValor.getText().replace(",", "."));
                 conta.setSaldo(contaNovoSaldo);
                 daoConta.alterar(conta);
-                
-                
+
                 dao.alterar(despesa);
                 JOptionPane.showMessageDialog(null, "Despesa atualizada com sucesso");
                 limparCampos();
@@ -433,10 +434,10 @@ public class DespesasTela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btAtualizarActionPerformed
 
-    
+
     private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
         if (tabela.getSelectedRow() != -1) {
-            
+
             //pegando o id da despesa na tabela
             int id = (int) tabela.getValueAt(tabela.getSelectedRow(), 0);
 
@@ -448,7 +449,7 @@ public class DespesasTela extends javax.swing.JFrame {
             conta.setSaldo(novoSaldo);
             daoConta.alterar(conta);
             //alterando o saldo ao excluir despesa
-            
+
             //informando que o processo foi bem sucedido, limpando os campos e mostrando os novos registros no banco
             dao.deletar(id);
             JOptionPane.showMessageDialog(null, "Conta deletada com sucesso");
@@ -464,6 +465,10 @@ public class DespesasTela extends javax.swing.JFrame {
     private void btPesquisaIdContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisaIdContaActionPerformed
         pesquisaIdConta(Integer.parseInt(varPesquisaIdConta.getText()));
     }//GEN-LAST:event_btPesquisaIdContaActionPerformed
+
+    private void btPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisaActionPerformed
+        pesquisaId(Integer.parseInt(varPesquisa.getText()));
+    }//GEN-LAST:event_btPesquisaActionPerformed
 
     //Método para validar dados informados antes de inserir um novo registro no banco
     private boolean temErro() {
@@ -491,7 +496,6 @@ public class DespesasTela extends javax.swing.JFrame {
 
         return false;
     }
-   
 
     //METODOS AUXILIARES
     private boolean validarDtPagamento() {
@@ -499,7 +503,6 @@ public class DespesasTela extends javax.swing.JFrame {
         String primeiroCaracter = dataPagamento.substring(0, 1);
         return primeiroCaracter.equals("/");
     }
-    
 
     private boolean validarDtPagEsperado() {
         String dtPagEsperado = varDtPagEsperado.getText().trim();
@@ -507,7 +510,6 @@ public class DespesasTela extends javax.swing.JFrame {
         return primeiroCaracter.equals("/");
     }
 
-    
     private boolean validarValor() {
         String valor = varValor.getText().trim();
         if (valor.equals("")) {
@@ -522,14 +524,13 @@ public class DespesasTela extends javax.swing.JFrame {
 
         return false;
     }
-    
 
-    public void pesquisaId(int idReceita) {
+    public void pesquisaId(int idDespesa) {
 
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
 
-        for (Despesas objetos : dao.pesquisaIdLista(idReceita)) {
+        for (Despesas objetos : dao.pesquisaIdLista(idDespesa)) {
             modelo.addRow(new Object[]{
                 objetos.getIddespesas(),
                 objetos.getDtpagamento(),
@@ -541,8 +542,8 @@ public class DespesasTela extends javax.swing.JFrame {
             });
 
         }
-
     }
+
     public void pesquisaIdConta(int idConta) {
 
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
@@ -583,7 +584,6 @@ public class DespesasTela extends javax.swing.JFrame {
 
     }
 
-    
     private void limparCampos() {
         varDtPagamento.setText("");
         varDtPagEsperado.setText("");
@@ -591,7 +591,6 @@ public class DespesasTela extends javax.swing.JFrame {
         varValor.setText("");
     }
 
-   
     /**
      * @param args the command line arguments
      */

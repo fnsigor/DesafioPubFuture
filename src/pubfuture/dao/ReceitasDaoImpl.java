@@ -192,4 +192,41 @@ public class ReceitasDaoImpl {
 
     }
 
+
+    
+       public List<Receitas> pesquisaIdContaLista(int idConta) {
+        sqlReceita = "SELECT * FROM RECEITAS WHERE IDCONTA= ? ";
+        List<Receitas> receitas = new ArrayList<>();
+
+        try {
+            connection = ConnectionFactory.abreConexao();
+            ps = connection.prepareStatement(sqlReceita);
+            ps.setInt(1,idConta);
+            result = ps.executeQuery();
+
+            while (result.next()) {
+                receita = new Receitas();
+                receita.setIdreceitas(result.getInt("idreceita"));
+                receita.setDtrecebimento(result.getDate("dtrecebimento"));
+                receita.setDtrecesperado(result.getDate("dtrecesperado"));
+                receita.setTipo(result.getString("tipo"));
+                receita.setValor(result.getDouble("valor"));
+                receita.setDescricao(result.getString("descricao"));
+                ContaDaoImpl dao = new ContaDaoImpl();
+                receita.setConta(dao.pesquisaPorId(result.getInt("idconta")));
+                receitas.add(receita);
+            }
+
+        } catch (Exception e) {
+            System.out.println("erro ao pesquisar por ID conta");
+            System.out.println(e.getMessage());
+        }
+        return receitas;
+    }
+    
+    
 }
+
+
+
+
