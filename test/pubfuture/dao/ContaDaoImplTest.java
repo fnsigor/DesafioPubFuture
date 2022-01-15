@@ -12,7 +12,7 @@ import pubfuture.bean.Conta;
 import org.junit.Test;
 
  
-
+//testes unitarios de cada metodo da clase ContaDaoImpl 
 public class ContaDaoImplTest {
     
     Conta conta;
@@ -21,10 +21,8 @@ public class ContaDaoImplTest {
     public ContaDaoImplTest() {
        dao  = new ContaDaoImpl();
     }
-
+    
    // @Test
-    
-    
     public void testSalvar() throws Exception {
        Conta objeto = new Conta();
        objeto.setInstituicao("Nubannk");
@@ -35,7 +33,8 @@ public class ContaDaoImplTest {
        }
     }
     
-   // @Test
+    
+    //@Test
     public void testPesquisaPorId() {
        conta = dao.pesquisaPorId(3);
         System.out.println(conta.getId());
@@ -43,20 +42,22 @@ public class ContaDaoImplTest {
         System.out.println(conta.getTipo());
     }
     
+    
     //@Test
     public void testAlterar() {
          conta = dao.pesquisaPorId(3);
          conta.setTipo("Carteira");
          conta.setSaldo(6.75);
          dao.alterar(conta);
-      
     }
 
+    
     //@Test
     public void testDeletar() {
         dao.deletar(6);
     }
 
+    
     //@Test
     public void testListar() {
        List<Conta> contas = new ArrayList();
@@ -67,9 +68,9 @@ public class ContaDaoImplTest {
            System.out.println(conta.getTipo());
            System.out.println(conta.getSaldo());
        });
-     
     }
 
+    
     //@Test
     public void testPesquisaPorInstitucao() {
         List<Conta> contas = new ArrayList();
@@ -80,12 +81,6 @@ public class ContaDaoImplTest {
            System.out.println(conta.getTipo());
            System.out.println(conta.getSaldo());
        });
-       
-       
     }
-    
-  
-    
-    
     
 }

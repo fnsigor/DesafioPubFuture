@@ -17,6 +17,8 @@ import pubfuture.bean.Receitas;
  *
  * @author Igor Fernandes
  */
+
+//testes unitários para cada método nda classe ReceitasDaoImpl
 public class ReceitasDaoImplTest {
 
     Receitas receita = new Receitas();
@@ -39,13 +41,14 @@ public class ReceitasDaoImplTest {
         receitasDao.registarReceita(receita);
     }
 
+    
     //@Test
     public void testPesquisaPorId() {
         receita = receitasDao.pesquisaPorId(3);
         verReceita(receita);
-
     }
 
+    
     //@Test
     public void testAlterar() {
         receita = receitasDao.pesquisaPorId(5);
@@ -54,11 +57,13 @@ public class ReceitasDaoImplTest {
         receitasDao.alterar(receita);
     }
 
+    
     //@Test
     public void testDeletar() {
         receitasDao.deletar(5);
     }
 
+    
     //@Test
     public void testListar() {
         List<Receitas> receitasdb = new ArrayList();
@@ -66,9 +71,10 @@ public class ReceitasDaoImplTest {
         receitasdb.forEach((receita) -> {
             verReceita(receita);
         });
-
     }
-
+    
+    
+    //método pára ver todos os valores do registro no banco
     public void verReceita(Receitas receita) {
         System.out.println("id receita: " + receita.getIdreceitas());
         System.out.println("valor receita: " + receita.getValor());
@@ -79,6 +85,6 @@ public class ReceitasDaoImplTest {
         System.out.println("conta receita: " + receita.getConta().getId());
         System.out.println("instituicao conta receita: " + receita.getConta().getInstituicao());
         System.out.println("saldo conta receita: " + receita.getConta().getSaldo());
-
     }
+    
 }

@@ -17,6 +17,7 @@ import pubfuture.regra_negocio.RegraNegocio;
  */
 public class ContaTela extends javax.swing.JFrame {
     
+    //intancias de objeto declaradas globalmente para evitar repetições
     ContaDaoImpl dao = new ContaDaoImpl();
     Conta objeto = new Conta();
     RegraNegocio regraNegocio = new RegraNegocio();
@@ -24,7 +25,6 @@ public class ContaTela extends javax.swing.JFrame {
     public ContaTela() {
         initComponents();
         pesquisaInstituicao("");
-        
     }
 
     
@@ -335,23 +335,26 @@ public class ContaTela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
-        //Setando valores na instancia de objeto após validação dos mesmos
+        //caso os valores nas variaveis passem pela validação, sem erros
         if (!temErro()) {
+            //Setando valores na instancia de objeto após validação dos mesmos
             objeto.setInstituicao(varInstituicao.getText().trim());
             objeto.setTipo((String) comboTipo.getSelectedItem());
             objeto.setSaldo(Double.parseDouble(varSaldo.getText().replace(",", ".")));
             objeto.setNumeroconta(regraNegocio.gerarNumeroConta());
+            
+            //salvando registro no banco
             dao.salvar(objeto);
             
+            //informando que processo foi bem sucedido, limpando campos e pesquisando novos registros no banco
             JOptionPane.showMessageDialog(null, "Conta cadastrada com sucesso!");
-            varInstituicao.setText("");
-            varSaldo.setText("");
+            limparCampos();
             pesquisaInstituicao(varPesquisa.getText());
         }
     }//GEN-LAST:event_btCadastrarActionPerformed
 
     
-    //metodo para validar dados antes de registrarno banco
+    //metodo para validar dados antes de registrar no banco
     public boolean temErro() {
         
         if (campoMenorQue3(varInstituicao.getText())) {
@@ -373,22 +376,33 @@ public class ContaTela extends javax.swing.JFrame {
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     
+    //botaoo para atualizar regitsro
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != -1) {
+            
+            //pesquisando registro pela id
             objeto = dao.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
+            
+            //setando valores das variaveis na instancia d3e objeto
             objeto.setInstituicao(varInstituicao.getText().trim());
             objeto.setTipo((String) comboTipo.getSelectedItem());
             objeto.setSaldo(Double.parseDouble(varSaldo.getText().replace(",", ".")));
+            
+            //executando comando sql
             dao.alterar(objeto);
             
+            //informando que processo foi bem sucedido, limpando campos e pesquisando novos registros no banco
             JOptionPane.showMessageDialog(null, "Conta alterada com sucesso!");
-            varInstituicao.setText("");
-            varSaldo.setText("");
+            limparCampos();
             pesquisaInstituicao(varPesquisa.getText());
         }
     }//GEN-LAST:event_btAtualizarActionPerformed
 
+    
+    //para fazer os valores do registro selecionado irem para os campos das variaveis e possibiliat alterações
     private void tabelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelaKeyReleased
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != -1) {
             comboTipo.setSelectedItem(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
             varInstituicao.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
@@ -397,7 +411,9 @@ public class ContaTela extends javax.swing.JFrame {
     }//GEN-LAST:event_tabelaKeyReleased
 
     
+    //para fazer os valores do registro selecionado irem para os campos das variaveis e possibiliat alterações
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != -1) {
             comboTipo.setSelectedItem(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
             varInstituicao.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
@@ -406,7 +422,9 @@ public class ContaTela extends javax.swing.JFrame {
     }//GEN-LAST:event_tabelaMouseClicked
 
     
+    //botao para excluir ocnta do banco
     private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != -1) {
             int id = (int) tabela.getValueAt(tabela.getSelectedRow(), 0);
             dao.deletar(id);
@@ -419,7 +437,6 @@ public class ContaTela extends javax.swing.JFrame {
         pesquisaId(Integer.parseInt(varIdPesquisa.getText().trim()));
     }//GEN-LAST:event_btPesquisaIdActionPerformed
 
-    
     
     //menu
     private void menuTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTransferenciaActionPerformed
@@ -456,7 +473,7 @@ public class ContaTela extends javax.swing.JFrame {
     
     
     //metodo para pesquisar conta pela instituicao
-    public void pesquisaInstituicao(String instituicao) {
+    private void pesquisaInstituicao(String instituicao) {
         
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
@@ -472,8 +489,9 @@ public class ContaTela extends javax.swing.JFrame {
         }
     }
     
+    
     //metodo para pesquisar conta pelo id da conta
-    public void pesquisaId(int idConta) {
+    private void pesquisaId(int idConta) {
         
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         modelo.setNumRows(0);
@@ -488,6 +506,14 @@ public class ContaTela extends javax.swing.JFrame {
             });
         }
     }
+    
+    
+    //metodo para limpar campos das variaveis
+    private void limparCampos(){
+         varInstituicao.setText("");
+            varSaldo.setText("");
+    }
+    
 
     /**
      * @param args the command line arguments

@@ -48,7 +48,7 @@ public class OperacoesDaoImpl {
 
             //preparanndo conexao 
             connection = ConnectionFactory.abreConexao();
-            psTransferencia = connection.prepareStatement(SqlTransferencia, PreparedStatement.RETURN_GENERATED_KEYS);
+            psTransferencia = connection.prepareStatement(SqlTransferencia);
 
             //setando os valores na instancia do objeto 
             psTransferencia.setDouble(1, transferencia.getValor());
@@ -58,9 +58,6 @@ public class OperacoesDaoImpl {
 
             //colocando a instancia de objeto no banco e colocando a id gerada na instancia de objeto
             psTransferencia.executeUpdate();
-            result = psTransferencia.getGeneratedKeys();
-            result.next();
-            transferencia.setIdtransferencia(result.getInt(1));
 
             //preparando para atualizar saldos apos transferencia
             psDevedor = connection.prepareStatement(sqlDevedor);
@@ -93,15 +90,19 @@ public class OperacoesDaoImpl {
     //metodo que lista todas as transferencias no banco de dados
     public List<Transferencia> listar() {
         
+        //definindo comandos sql e criando lista que vai receber o resultado retorno desse metodo
         SqlTransferencia = "SELECT IDTRANSFERENCIA, DTTRANSFERENCIA, VALOR, IDPAGADOR, IDRECEBEDOR FROM TRANSFERENCIAS";
         List<Transferencia> transferenciasdb = new ArrayList<>();
         
         try {
+            //abrinco conexao com o banco, defindo comando sql a ser utilizado e executando comando
             connection = ConnectionFactory.abreConexao();
             psTransferencia = connection.prepareStatement(SqlTransferencia);
             result = psTransferencia.executeQuery();
-
+            
+            //enquanto vierem registros do banco
             while (result.next()) {
+                //criar instancia de objeto e colocar valores do registro que retornou nessa instancia de objeto
                 transferencia = new Transferencia();
                 transferencia.setIdtransferencia(result.getInt("idtransferencia"));
                 transferencia.setDtTransferencia(result.getDate("dttransferencia"));
@@ -109,6 +110,8 @@ public class OperacoesDaoImpl {
                 contaDao = new ContaDaoImpl();
                 transferencia.setPagador(contaDao.pesquisaPorId(result.getInt("idpagador")));
                 transferencia.setRecebedor(contaDao.pesquisaPorId(result.getInt("idrecebedor")));
+                
+                //adicionando instancia de objeto na lista que o metodo vai retornar
                 transferenciasdb.add(transferencia);
             }
 
@@ -123,16 +126,22 @@ public class OperacoesDaoImpl {
     //metodo que pesquisa transferenica no banco pela id do pagador
     public List<Transferencia> pesquisaIdPagador(int idPagador) {
         
+        //definindo comandos sql e criando lista que vai receber o resultado retorno desse metodo
         SqlTransferencia = "SELECT * FROM TRANSFERENCIAS WHERE IDPAGADOR=?";
         List<Transferencia> transferenciasdb = new ArrayList<>();
         
         try {
+            
+            //abrindo conexao com o banco, definindo comando a ser utilizado, setando valor do parametro no comando
             connection = ConnectionFactory.abreConexao();
             psTransferencia = connection.prepareStatement(SqlTransferencia);
             psTransferencia.setInt(1, idPagador);
+            
+            //executando comando
             result = psTransferencia.executeQuery();
 
             while (result.next()) {
+                //enquanto vierem registros do banco
                 transferencia = new Transferencia();
                 transferencia.setIdtransferencia(result.getInt("idtransferencia"));
                 transferencia.setDtTransferencia(result.getDate("dttransferencia"));
@@ -140,6 +149,8 @@ public class OperacoesDaoImpl {
                 contaDao = new ContaDaoImpl();
                 transferencia.setPagador(contaDao.pesquisaPorId(result.getInt("idpagador")));
                 transferencia.setRecebedor(contaDao.pesquisaPorId(result.getInt("idrecebedor")));
+                
+                //adicionando instancia de objeto na lista que o metodo vai retornar
                 transferenciasdb.add(transferencia);
             }
 

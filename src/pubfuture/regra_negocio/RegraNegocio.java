@@ -13,13 +13,14 @@ import pubfuture.bean.Conta;
  */
 public class RegraNegocio {
     
+    //metodo para gerar numero de conta (5 numeros aleatorios de 0 a 10) ao cadastrar conta no banco de dados
     public String gerarNumeroConta() {
-
+        
         String numeroAleatorio = "";
         for (int i = 0; i < 5; i++) {
             numeroAleatorio += (int) (Math.random() * 10);
         }
-
+        
         return numeroAleatorio;
     }
     

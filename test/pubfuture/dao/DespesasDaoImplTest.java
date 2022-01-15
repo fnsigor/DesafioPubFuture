@@ -18,16 +18,18 @@ import pubfuture.bean.Receitas;
  *
  * @author Igor Fernandes
  */
+
+//testes unitários de cada método da classe DespesasDaoImpl
 public class DespesasDaoImplTest {
 
     Despesas despesa = new Despesas();
     DespesasDaoImpl despesaDao = new DespesasDaoImpl();
     Conta conta = new Conta();
     ContaDaoImpl contasDao = new ContaDaoImpl();
-
+    
     public DespesasDaoImplTest() {
     }
-
+    
     //@Test
     public void testRegistarReceita() {
         despesa.setValor(0.87000000000006);
@@ -39,13 +41,14 @@ public class DespesasDaoImplTest {
         despesaDao.registarDespesa(despesa);
     }
 
+    
     //@Test
     public void testPesquisaPorId() {
         despesa = despesaDao.pesquisaPorId(2);
         verDespesa(despesa);
-
     }
 
+    
     // @Test
     public void testAlterar() {
         despesa = despesaDao.pesquisaPorId(1);
@@ -53,11 +56,13 @@ public class DespesasDaoImplTest {
         despesaDao.alterar(despesa);
     }
 
+    
     //@Test
     public void testDeletar() {
         despesaDao.deletar(2);
     }
 
+    
     //@Test
     public void testListar() {
         List<Despesas> despesasdb = new ArrayList<>();
@@ -67,8 +72,7 @@ public class DespesasDaoImplTest {
         });
     }
     
-    
-
+    //método pára ver todos os valores do registro no banco
     public void verDespesa(Despesas despesa) {
         System.out.println("id despesa: " + despesa.getIddespesas());
         System.out.println("valor despesa: " + despesa.getValor());
@@ -78,7 +82,5 @@ public class DespesasDaoImplTest {
         System.out.println("conta despesa: " + despesa.getConta().getId());
         System.out.println("instituicao conta despesa: " + despesa.getConta().getInstituicao());
         System.out.println("saldo conta despesa: " + despesa.getConta().getSaldo());
-
     }
-
 }

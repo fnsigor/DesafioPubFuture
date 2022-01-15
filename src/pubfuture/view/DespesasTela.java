@@ -27,7 +27,8 @@ import sun.font.TrueTypeFont;
  * @author Igor Fernandes
  */
 public class DespesasTela extends javax.swing.JFrame {
-
+    
+    //declaração global para evitar repetições
     Despesas despesa = new Despesas();
     DespesasDaoImpl dao = new DespesasDaoImpl();
     Conta conta = new Conta();
@@ -38,7 +39,6 @@ public class DespesasTela extends javax.swing.JFrame {
     public DespesasTela() {
         initComponents();
         listar();
-
     }
 
     /**
@@ -384,6 +384,7 @@ public class DespesasTela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+        //se os valores informados passrem pela validação
         if (!temErro()) {
 
             //Esse trecho do código informa ao usuário que ele passou dos limites está com saldo negativo  
@@ -425,6 +426,7 @@ public class DespesasTela extends javax.swing.JFrame {
     //Não foi possível incluir as datas nos campos das varíveis devido a formatação dos campos
     //Sempre que for atualizar algo terá que informar as datas manualmente
     private void tabelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelaKeyReleased
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != -1) {
             varDtPagamento.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
             varDtPagEsperado.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
@@ -438,6 +440,7 @@ public class DespesasTela extends javax.swing.JFrame {
     //Não foi possível incluir as datas nos campos das varíveis devido a formatação dos campos
     //Sempre que for atualizar algo terá que informar as datas manualmente
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != -1) {
             varDtPagamento.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
             varDtPagEsperado.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
@@ -449,19 +452,23 @@ public class DespesasTela extends javax.swing.JFrame {
     
     //Metodo para atualizar datas, tipo de despesa ou valor. É possível alterar tudo menos a conta a qual a receita pertence
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-      
+        
+        //para verificar se as datas foram preenchidas antes de executar o método
         if (validarDtPagamento()) {
             JOptionPane.showMessageDialog(null, "Insira a data de pagamento");
         }
         if (validarDtPagEsperado()) {
             JOptionPane.showMessageDialog(null, "Insira a data esperada de pagamento");
         }
-
+        
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != 1) {
             try {
+                //pesquisando registros da despesa e conta pelo id na tabela
                 despesa = dao.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
                 conta = daoConta.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 4));
-
+                
+                //setando valores novos
                 String dataString = varDtPagamento.getText();
                 despesa.setDtpagamento(new java.sql.Date(fmt.parse(dataString).getTime()));
                 dataString = varDtPagEsperado.getText();
@@ -473,9 +480,11 @@ public class DespesasTela extends javax.swing.JFrame {
                 double contaNovoSaldo = contaSaldoAnterior - Double.parseDouble(varValor.getText().replace(",", "."));
                 conta.setSaldo(contaNovoSaldo);
                 daoConta.alterar(conta);
+                
                 //setando o valor novo nessa linha para possibilitar a atualização de saldo
                 despesa.setValor(Double.parseDouble(varValor.getText().replace(",", ".")));
                 
+                //informando que processo foi bem sucedido, limpando campos e pesquisando novos registros no banco
                 dao.alterar(despesa);
                 JOptionPane.showMessageDialog(null, "Despesa atualizada com sucesso");
                 limparCampos();
@@ -489,8 +498,8 @@ public class DespesasTela extends javax.swing.JFrame {
 
 
     private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != -1) {
-
             //pegando o id da despesa na tabela
             int id = (int) tabela.getValueAt(tabela.getSelectedRow(), 0);
 
@@ -506,7 +515,6 @@ public class DespesasTela extends javax.swing.JFrame {
             dao.deletar(id);
             JOptionPane.showMessageDialog(null, "Conta deletada com sucesso");
             listar();
-
         }
     }//GEN-LAST:event_btDeletarActionPerformed
 

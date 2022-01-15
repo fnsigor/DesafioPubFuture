@@ -28,7 +28,8 @@ import sun.font.TrueTypeFont;
 //TENTAR EXIBIR DESCRIÇÃO COMPLETA AO PASSAR O MOUSE POR CIMA DO REGISTRO
 
 public class ReceitasTela extends javax.swing.JFrame {
-
+    
+    //declarados globalmente para evitar repetições
     Receitas receita = new Receitas();
     ReceitasDaoImpl daoReceita = new ReceitasDaoImpl();
     Conta conta = new Conta();
@@ -39,7 +40,6 @@ public class ReceitasTela extends javax.swing.JFrame {
     public ReceitasTela() {
         initComponents();
         listar();
-
     }
 
     /**
@@ -390,8 +390,8 @@ public class ReceitasTela extends javax.swing.JFrame {
 
     
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+        //se os valores informados passrem pela validação
         if (!temErro()) {
-
             try {
                 //setando valores formatados das datas nas variaveis -- foi necessário usar um Try-Catch para isso
                 String dataString = varDtRecebimento.getText();
@@ -424,6 +424,7 @@ public class ReceitasTela extends javax.swing.JFrame {
     //Não foi possível incluir as datas nos campos das varíveis devido a formatação dos campos
     //Sempre que for atualizar algo terá que informar as datas manualmente
     private void tabelaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelaKeyReleased
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != -1) {
             varDtRecebimento.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
             varDtRecEsperado.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
@@ -439,6 +440,7 @@ public class ReceitasTela extends javax.swing.JFrame {
     //Não foi possível incluir as datas nos campos das varíveis devido a formatação dos campos
     //Sempre que for atualizar algo terá que informar as datas manualmente
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != -1) {
             varDtRecebimento.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
             varDtRecEsperado.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
@@ -451,16 +453,18 @@ public class ReceitasTela extends javax.swing.JFrame {
 
     //Método para atualizar dados da receita. É possível alterar tudo menos a conta a qual a receita pertence
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-      
+       //para verificar se as datas foram preenchidas antes de executar o método      
         if (validarDtRecebimento()) {
             JOptionPane.showMessageDialog(null, "Insira a data de recebimento");
         }
         if (validarDtRecEsperado()) {
             JOptionPane.showMessageDialog(null, "Insira a data esperada de recebimento");
         }
-
+        
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != 1) {
             try {
+                //pesquisando registros da despesa e conta pelo id na tabela
                 receita = daoReceita.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
                 conta = daoConta.pesquisaPorId((int) tabela.getValueAt(tabela.getSelectedRow(), 5));
                 
@@ -471,15 +475,14 @@ public class ReceitasTela extends javax.swing.JFrame {
                 receita.setDescricao(varDescricao.getText().trim());
                 receita.setTipo((String) comboTipo.getSelectedItem());
                 
-                
                 //alterando valor no saldo da conta após valor da receita ser alterado
                 double contaSaldoAnterior = conta.getSaldo() - receita.getValor();
                 double contaNovoSaldo = contaSaldoAnterior + Double.parseDouble(varValor.getText().replace(",", "."));
                 conta.setSaldo(contaNovoSaldo);
                 daoConta.alterar(conta);
-                //setando o valor novo nessa linha para possibilitar a atualização de saldo
                 receita.setValor(Double.parseDouble(varValor.getText().replace(",", ".")));
                 
+                //informando que o processo foi bem sucedido, limpando os campos e mostrando os novos registros no banco
                 daoReceita.alterar(receita);
                 JOptionPane.showMessageDialog(null, "Receita atualizada com sucesso");
                 limparCampos();
@@ -493,6 +496,7 @@ public class ReceitasTela extends javax.swing.JFrame {
 
     
     private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
+        //se um registro foi selecionado
         if (tabela.getSelectedRow() != -1) {
            //pegando o id da despesa na tabela
            int id = (int) tabela.getValueAt(tabela.getSelectedRow(), 0);
@@ -512,6 +516,7 @@ public class ReceitasTela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btDeletarActionPerformed
 
+    
     //botao para listar todas as receitas no banco 
     private void btVizualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVizualizarActionPerformed
         listar();
@@ -535,6 +540,7 @@ public class ReceitasTela extends javax.swing.JFrame {
         new DespesasTela().setVisible(true);
     }//GEN-LAST:event_menuDespesasActionPerformed
     //meu
+    
     
     //METODO PARA VALIDAÇÃO DE DADOS INFORMADOS PARA REGISTRAR RECEITA
     private boolean temErro() {
@@ -593,14 +599,12 @@ public class ReceitasTela extends javax.swing.JFrame {
                 return true;
             }
         }
-
         return false;
     }
 
     
     private boolean campoMenorQue3Digitos(String valorCampo) {
         return valorCampo.length() < 3;
-
     }
 
     //metodo para pesquisar receita pelo id da receita
@@ -618,11 +622,8 @@ public class ReceitasTela extends javax.swing.JFrame {
                 objetos.getTipo(),
                 objetos.getConta().getId(),
                 objetos.getValor()
-
             });
-
         }
-
     }
 
     //metodo para listar todos os registros no banco
@@ -640,11 +641,8 @@ public class ReceitasTela extends javax.swing.JFrame {
                 objetos.getTipo(),
                 objetos.getConta().getId(),
                 objetos.getValor()
-
             });
-
         }
-
     }
     
     //metodo para pesquisar receita pelo id da conta
@@ -662,11 +660,8 @@ public class ReceitasTela extends javax.swing.JFrame {
                 objetos.getTipo(),
                 objetos.getConta().getId(),
                 objetos.getValor()
-
             });
-
         }
-
     }
 
     //metodo para limpar os campos das variavéis

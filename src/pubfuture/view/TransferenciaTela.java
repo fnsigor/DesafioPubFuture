@@ -22,7 +22,8 @@ import pubfuture.dao.OperacoesDaoImpl;
  * @author Igor Fernandes
  */
 public class TransferenciaTela extends javax.swing.JFrame {
-
+    
+    //declaração global para evitar repetições
     Conta conta = new Conta();
     ContaDaoImpl daoConta = new ContaDaoImpl();
     DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
@@ -293,11 +294,13 @@ public class TransferenciaTela extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //metodo para realizar transferencia
     private void btRealizarTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRealizarTransferenciaActionPerformed
+         //se os valores informados passrem pela validação
         if (!temErro()) {
+            //se o pagador tem saldo suficiente para realizar transação
             if (!saldoInsuficiente()) {
                 try {
-
                     //setando valores nas variaveis
                     transferencia.setValor(Double.parseDouble(varValor.getText().trim().replace(",", ".")));
                     conta = daoConta.pesquisaPorId(Integer.parseInt(varIdPagador.getText().trim()));
@@ -311,14 +314,13 @@ public class TransferenciaTela extends javax.swing.JFrame {
 
                     //realizando transferecnia
                     Operacao.transferenciaHistorico(transferencia);
-
+           
                 } catch (ParseException ex) {
                     Logger.getLogger(TransferenciaTela.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-                JOptionPane.showMessageDialog(null, "Transfêrencia realizada com sucesso");
-                limpar();
-                listar();
+             JOptionPane.showMessageDialog(null, "Transfêrencia realizada com sucesso");
+             limpar();
+             listar();
             }
         }
     }//GEN-LAST:event_btRealizarTransferenciaActionPerformed
@@ -372,7 +374,6 @@ public class TransferenciaTela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Informe um ID válido");
             return true;
         }
-
         return false;
     }
 
@@ -396,7 +397,6 @@ public class TransferenciaTela extends javax.swing.JFrame {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -411,7 +411,6 @@ public class TransferenciaTela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "O pagador não possui saldo suficiente para essa operação");
             return true;
         }
-
         return false;
     }
     

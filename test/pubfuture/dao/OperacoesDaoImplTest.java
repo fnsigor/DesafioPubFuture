@@ -14,6 +14,8 @@ import pubfuture.bean.Transferencia;
  *
  * @author Igor Fernandes
  */
+
+//testes unitários de cada método da classe OperacoesDaoImpl
 public class OperacoesDaoImplTest {
     
     OperacoesDaoImpl dao = new OperacoesDaoImpl();
@@ -23,15 +25,14 @@ public class OperacoesDaoImplTest {
     
     public OperacoesDaoImplTest() {
     }
-
+    
     //@Test
     public void testSomeMethod() {
         //operacao.transferencia(1, 2, 20.0);
     }
 
     
-
-    @Test
+    //@Test
     public void testTransferenciaHistorico() {
         objeto.setDtTransferencia(new Date());
         objeto.setValor(5);
@@ -39,7 +40,6 @@ public class OperacoesDaoImplTest {
         objeto.setPagador(conta);
         conta = contasDao.pesquisaPorId(8);
         objeto.setRecebedor(conta);
-        
         dao.transferenciaHistorico(objeto);
     }
     
