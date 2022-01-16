@@ -2,7 +2,7 @@
 Solução para controle de finanças pessoais.
 
 
-#Como rodar a aplicação:
+# Como rodar a aplicação:
 
 Instalação:
 -Faça download do ZIP do projeto diretamente pelo GitHub;
