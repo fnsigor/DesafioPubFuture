@@ -1,7 +1,3 @@
-# DesafioPubFuture
-Solução para controle de finanças pessoais.
-
-
 # Como rodar a aplicação:
 
 ## Instalação:
